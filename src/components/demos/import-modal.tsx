@@ -44,7 +44,7 @@ function ImportFlow({ onOpenBoard }: { onOpenBoard: () => void }) {
 
   const source = importFlow.sources.find((s) => s.id === sourceId) ?? importFlow.sources[0];
   const steps = importFlow.steps.map((label) => fill(label, { count: source.tasks }));
-  const progress = phase === "done" ? 1 : phase === "importing" ? (step + 0.5) / steps.length : 0;
+  const progress = (step + 0.5) / steps.length;
 
   useEffect(() => {
     if (phase !== "importing") return;
@@ -162,25 +162,25 @@ function ImportFlow({ onOpenBoard }: { onOpenBoard: () => void }) {
                 );
               })}
             </ol>
+
+            <div
+              className="mt-6 h-1.5 overflow-hidden rounded-full bg-sand"
+              role="progressbar"
+              aria-label="Import progress"
+              aria-valuemin={0}
+              aria-valuemax={100}
+              aria-valuenow={Math.round(progress * 100)}
+            >
+              <motion.div
+                className="h-full origin-left rounded-full bg-accent"
+                initial={{ scaleX: 0 }}
+                animate={{ scaleX: progress }}
+                transition={{ duration: STEP_MS / 1000, ease: [0.22, 1, 0.36, 1] }}
+              />
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
-
-      <div
-        className="mt-6 h-1.5 overflow-hidden rounded-full bg-sand"
-        role="progressbar"
-        aria-label="Import progress"
-        aria-valuemin={0}
-        aria-valuemax={100}
-        aria-valuenow={Math.round(progress * 100)}
-      >
-        <motion.div
-          className="h-full origin-left rounded-full bg-accent"
-          initial={false}
-          animate={{ scaleX: progress }}
-          transition={{ duration: STEP_MS / 1000, ease: [0.22, 1, 0.36, 1] }}
-        />
-      </div>
 
       <div className="mt-6 flex flex-col-reverse items-stretch gap-3 sm:flex-row sm:items-center sm:justify-between">
         <p className="text-caption text-muted">{importFlow.undoNote}</p>
