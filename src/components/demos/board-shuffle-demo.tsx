@@ -54,17 +54,17 @@ export function BoardShuffleDemo() {
       aria-hidden
       onPointerEnter={() => setPaused(true)}
       onPointerLeave={() => setPaused(false)}
-      className="grid grid-cols-3 gap-2"
+      className="grid grid-cols-3 gap-1.5 sm:gap-2"
     >
       <LayoutGroup>
         {features.boards.columns.map((title, index) => (
-          <div key={title} className="flex flex-col gap-1.5 rounded-control bg-paper p-1.5">
+          <div key={title} className="flex min-w-0 flex-col gap-1.5 rounded-control bg-paper p-1 sm:p-1.5">
             <div className="flex items-center justify-between px-1 pt-0.5 pb-1">
-              <span className="text-caption font-medium text-ink">{title}</span>
+              <span className="truncate text-micro font-medium text-ink sm:text-caption">{title}</span>
               <span className="text-micro text-subtle tabular-nums">{columns[index].length}</span>
             </div>
             {/* Invisible stack of every card shares the grid cell so columns reserve full-board height and never grow mid-shuffle. */}
-            <div className="grid">
+            <div className="grid grid-cols-[minmax(0,1fr)]">
               <div className="invisible col-start-1 row-start-1 flex flex-col gap-1.5">
                 {features.boards.cards.map((card) => (
                   <BoardCard key={card.id} card={card} />
@@ -87,12 +87,12 @@ export function BoardShuffleDemo() {
 
 function BoardCard({ card }: { card: (typeof features.boards.cards)[number] }) {
   return (
-    <div className="rounded-control border border-hairline bg-surface px-2 py-2 shadow-card">
-      <div className="flex items-center gap-1.5">
+    <div className="rounded-control border border-hairline bg-surface px-1.5 py-1.5 shadow-card sm:px-2 sm:py-2">
+      <div className="flex min-w-0 items-center gap-1 sm:gap-1.5">
         <span className={cn("size-1.5 shrink-0 rounded-full", toneDot[card.tone])} />
-        <span className="truncate text-caption text-ink">{card.title}</span>
+        <span className="truncate text-micro text-ink sm:text-caption">{card.title}</span>
       </div>
-      <span className="mt-2 block h-1 w-2/3 rounded-full bg-hairline" />
+      <span className="mt-1.5 block h-1 w-2/3 sm:mt-2 rounded-full bg-hairline" />
     </div>
   );
 }

@@ -140,10 +140,10 @@ export function TimelineDemo() {
           {milestones.map((milestone) => {
             const on = day >= milestone.from && day <= milestone.to;
             return (
-              <li key={milestone.label} className="relative h-7">
+              <li key={milestone.label} className="relative h-6 sm:h-7">
                 <span
                   className={cn(
-                    "absolute inset-y-0 flex items-center rounded-full border px-2.5 text-caption font-medium whitespace-nowrap transition-colors duration-base",
+                    "absolute inset-y-0 flex items-center overflow-hidden rounded-full border px-2 text-micro font-medium whitespace-nowrap sm:px-2.5 sm:text-caption transition-colors duration-base",
                     on ? barTone[milestone.tone].on : barTone[milestone.tone].off,
                   )}
                   style={{
@@ -213,15 +213,15 @@ export function TimelineDemo() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.96 }}
                 transition={spring.soft}
-                className="flex items-center gap-3 rounded-card border border-hairline bg-paper px-3 py-2.5"
+                className="flex items-center gap-2.5 rounded-card border border-hairline bg-paper px-2.5 py-2 sm:gap-3 sm:px-3 sm:py-2.5"
               >
                 <Avatar name={milestone.owner.name} src={milestone.owner.photo} tone={milestone.owner.tone} size="md" />
                 <div className="min-w-0">
-                  <p className="text-label font-medium text-ink">
+                  <p className="text-caption font-medium text-ink sm:text-label">
                     {milestone.label}
                     <span className="font-normal text-muted"> · due {dateAt(milestone.to)}</span>
                   </p>
-                  <p className="truncate text-caption text-muted">{milestone.detail}</p>
+                  <p className="truncate text-micro text-muted sm:text-caption">{milestone.detail}</p>
                 </div>
               </motion.li>
             ))}

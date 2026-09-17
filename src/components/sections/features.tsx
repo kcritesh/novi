@@ -29,18 +29,18 @@ function FeatureCard({ icon: Icon, title, description, className, children }: Fe
       <article
         onPointerMove={spotlight.onPointerMove}
         className={cn(
-          "group relative isolate flex h-full flex-col overflow-hidden rounded-panel border border-hairline bg-surface p-6 shadow-card sm:p-7",
+          "group relative isolate flex h-full flex-col overflow-hidden rounded-panel border border-hairline bg-surface p-5 shadow-card sm:p-7",
           "before:pointer-events-none before:absolute before:inset-0 before:-z-10 before:opacity-0 before:transition-opacity before:duration-slow",
           "before:bg-[radial-gradient(28rem_circle_at_var(--spot-x,50%)_var(--spot-y,50%),var(--color-accent-tint),transparent_65%)]",
           "hover:before:opacity-100",
         )}
       >
-        <div className="flex items-center gap-2.5">
-          <Icon aria-hidden className="size-6 shrink-0 text-ink" strokeWidth={1.5} />
-          <h3 className="text-title font-semibold text-ink">{title}</h3>
+        <div className="flex items-center gap-2 sm:gap-2.5">
+          <Icon aria-hidden className="size-5 shrink-0 text-ink sm:size-6" strokeWidth={1.5} />
+          <h3 className="text-body-lg leading-snug font-semibold text-ink sm:text-title">{title}</h3>
         </div>
-        <Text className="mt-1.5 max-w-md">{description}</Text>
-        <div className="mt-7 flex-1">{children}</div>
+        <Text className="mt-1.5 max-w-md text-label sm:text-body">{description}</Text>
+        <div className="mt-5 flex-1 sm:mt-7">{children}</div>
       </article>
     </RevealItem>
   );

@@ -21,14 +21,14 @@ export function ImportDemo() {
             return (
               <span
                 key={source.id}
-                className="flex size-11 items-center justify-center rounded-card border border-hairline bg-surface text-ink shadow-card"
+                className="flex size-10 items-center sm:size-11 justify-center rounded-card border border-hairline bg-surface text-ink shadow-card"
               >
                 <Glyph className="size-5" />
               </span>
             );
           })}
         </div>
-        <svg viewBox="0 0 96 120" className="h-38 w-24 shrink-0 overflow-visible" fill="none">
+        <svg viewBox="0 0 96 120" className="h-36 w-20 shrink-0 sm:h-38 sm:w-24 overflow-visible" fill="none">
           {connectors.map((d) => (
             <path
               key={d}
@@ -41,8 +41,8 @@ export function ImportDemo() {
             />
           ))}
         </svg>
-        <span className="flex size-14 items-center justify-center rounded-panel border border-accent-line bg-accent-tint shadow-card">
-          <LogoMark className="size-8" />
+        <span className="flex size-12 items-center justify-center rounded-panel sm:size-14 border border-accent-line bg-accent-tint shadow-card">
+          <LogoMark className="size-7 sm:size-8" />
         </span>
       </div>
 

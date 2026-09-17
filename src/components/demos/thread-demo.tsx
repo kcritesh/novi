@@ -65,11 +65,11 @@ export function ThreadDemo() {
     <div ref={ref} className="relative">
       <div className="rounded-card border border-hairline bg-surface p-3 shadow-card" aria-hidden>
         <div className="flex items-center justify-between gap-2 border-b border-hairline pb-2.5">
-          <span className="text-label font-medium text-ink">{task.title}</span>
+          <span className="truncate text-caption font-medium text-ink sm:text-label">{task.title}</span>
           <Pill tone={task.tag.tone}>{task.tag.label}</Pill>
         </div>
 
-        <ul className="mt-3 flex min-h-56 flex-col gap-2.5">
+        <ul className="mt-3 flex min-h-52 flex-col gap-2 sm:min-h-56 sm:gap-2.5">
           <AnimatePresence initial={false}>
             {messages.slice(0, view.shown).map((message, index) => {
               const isLatest = index === view.shown - 1;
@@ -90,7 +90,7 @@ export function ThreadDemo() {
                     )}
                   >
                     <p className="text-micro font-medium text-muted">{message.author.name}</p>
-                    <p className="text-caption text-ink">{text}</p>
+                    <p className="text-micro text-ink sm:text-caption">{text}</p>
                     {index === messages.length - 1 && (
                       <AnimatePresence>
                         {view.reacted && (
