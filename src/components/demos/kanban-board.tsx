@@ -219,7 +219,7 @@ function KanbanColumn({ id, title, tasks, activeId }: KanbanColumnProps) {
       )}
     >
       <header className="flex items-center gap-2 px-1.5 pt-1 pb-2.5">
-        <h3 className="text-label font-medium text-ink">{title}</h3>
+        <span className="text-label font-medium text-ink">{title}</span>
         <span className="relative inline-flex h-5 min-w-5 items-center justify-center overflow-hidden rounded-full bg-sand px-1.5 text-micro font-medium text-muted tabular-nums">
           <AnimatePresence mode="popLayout" initial={false}>
             <motion.span

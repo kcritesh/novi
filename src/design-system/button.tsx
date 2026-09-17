@@ -31,7 +31,7 @@ export const buttonVariants = cva(
         true: "w-full",
       },
     },
-    compoundVariants: [{ variant: "link", className: "h-auto px-0" }],
+    compoundVariants: [{ variant: "link", className: "h-auto min-h-11 px-0" }],
     defaultVariants: { variant: "primary", size: "md" },
   },
 );

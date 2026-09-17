@@ -61,7 +61,7 @@ export function Features() {
           <Text size="body-lg">{features.support}</Text>
           <a
             href={features.link.href}
-            className="group mt-3 inline-flex items-center gap-1.5 rounded-sm text-label font-medium text-ink underline decoration-hairline-strong underline-offset-4 transition-colors duration-fast hover:decoration-ink"
+            className="group mt-1 inline-flex min-h-11 items-center gap-1.5 rounded-sm text-label font-medium text-ink underline decoration-hairline-strong underline-offset-4 transition-colors duration-fast hover:decoration-ink"
           >
             {features.link.label}
             <ArrowRight

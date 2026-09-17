@@ -8,7 +8,7 @@ import { TabCollapse } from "@/components/demos/tab-collapse";
 import { hero } from "@/content/content";
 import { Button, Em, Heading, Pill, Section, Text } from "@/design-system";
 import { useMagnetic } from "@/hooks/use-magnetic";
-import { fadeUp, spring, stagger } from "@/lib/motion";
+import { spring } from "@/lib/motion";
 
 function Scribble() {
   return (
@@ -52,13 +52,8 @@ export function Hero() {
         className="pointer-events-none absolute inset-x-0 top-0 h-[40rem] dot-grid dot-grid-fade"
       />
 
-      <motion.div
-        initial="hidden"
-        animate="visible"
-        variants={stagger(0.08)}
-        className="relative text-center"
-      >
-        <motion.div variants={fadeUp}>
+      <div className="relative text-center">
+        <div className="animate-rise-in">
           <a href={hero.announcement.href} className="group inline-flex rounded-full">
             <Pill
               tone="outline"
@@ -72,9 +67,9 @@ export function Hero() {
               />
             </Pill>
           </a>
-        </motion.div>
+        </div>
 
-        <motion.div variants={fadeUp}>
+        <div className="animate-settle-in">
           <Heading as="h1" size="display-xl" className="mx-auto mt-6 max-w-5xl text-pretty">
             {hero.headline.lead}{" "}
             <span className="relative inline-block whitespace-nowrap">
@@ -82,18 +77,15 @@ export function Hero() {
               <Scribble />
             </span>
           </Heading>
-        </motion.div>
+        </div>
 
-        <motion.div variants={fadeUp}>
+        <div className="animate-rise-in [animation-delay:160ms]">
           <Text size="body-lg" className="mx-auto mt-6 max-w-xl text-balance">
             {hero.support}
           </Text>
-        </motion.div>
+        </div>
 
-        <motion.div
-          variants={fadeUp}
-          className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row"
-        >
+        <div className="mt-8 flex animate-rise-in flex-col items-center justify-center gap-3 [animation-delay:240ms] sm:flex-row">
           <Button asChild size="lg" className="w-full sm:w-auto">
             <motion.a
               href={hero.primaryCta.href}
@@ -115,8 +107,8 @@ export function Hero() {
               />
             </a>
           </Button>
-        </motion.div>
-      </motion.div>
+        </div>
+      </div>
 
       <div className="relative mx-auto mt-14 max-w-5xl sm:mt-16">
         <TabCollapse>

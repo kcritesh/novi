@@ -55,18 +55,25 @@ function StepItem({ step, active, onActive }: StepItemProps) {
 
   return (
     <li ref={ref} className="relative py-8 lg:flex lg:min-h-[52vh] lg:items-center lg:py-0">
-      <div
-        className={cn(
-          "transition-opacity duration-slow ease-out-soft lg:pl-8",
-          active ? "opacity-100" : "lg:opacity-40",
-        )}
-        aria-current={active ? "step" : undefined}
-      >
+      <div className="lg:pl-8" aria-current={active ? "step" : undefined}>
         <div className="flex items-baseline gap-4">
           <span className="font-mono text-caption text-subtle">{step.number}</span>
-          <h3 className="text-display-sm font-semibold text-ink">{step.title}</h3>
+          <h3
+            className={cn(
+              "text-display-sm font-semibold transition-colors duration-slow ease-out-soft",
+              active ? "text-ink" : "text-ink lg:text-subtle",
+            )}
+          >
+            {step.title}
+          </h3>
         </div>
-        <Text size="body-lg" className="mt-3 max-w-sm pl-10">
+        <Text
+          size="body-lg"
+          className={cn(
+            "mt-3 max-w-sm pl-10 transition-colors duration-slow ease-out-soft",
+            !active && "lg:text-subtle",
+          )}
+        >
           {step.description}
         </Text>
         <div className="mt-6 lg:hidden">
@@ -114,7 +121,7 @@ export function HowItWorks() {
           </ol>
           <a
             href={howItWorks.link.href}
-            className="group mt-2 inline-flex items-center gap-1.5 rounded-sm text-label font-medium text-ink underline decoration-hairline-strong underline-offset-4 transition-colors duration-fast hover:decoration-ink lg:ml-8"
+            className="group inline-flex min-h-11 items-center gap-1.5 rounded-sm text-label font-medium text-ink underline decoration-hairline-strong underline-offset-4 transition-colors duration-fast hover:decoration-ink lg:ml-8"
           >
             {howItWorks.link.label}
             <ArrowRight

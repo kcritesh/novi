@@ -4,7 +4,7 @@ import { NewsletterForm } from "./newsletter-form";
 import { socialGlyphs } from "./social-glyphs";
 
 const linkClass =
-  "rounded-sm text-body text-ink transition-colors duration-fast hover:text-accent-ink focus-visible:text-accent-ink";
+  "inline-flex min-h-11 items-center rounded-sm text-body text-ink transition-colors duration-fast hover:text-accent-ink focus-visible:text-accent-ink";
 
 export function Footer() {
   const year = new Date().getFullYear();
@@ -27,7 +27,7 @@ export function Footer() {
             {footer.groups.map((group) => (
               <div key={group.title}>
                 <h2 className="text-label text-muted">{group.title}</h2>
-                <ul className="mt-4 space-y-3">
+                <ul className="mt-2">
                   {group.links.map((link) => (
                     <li key={link.label}>
                       <a href={link.href} className={linkClass}>
@@ -50,7 +50,7 @@ export function Footer() {
               <a
                 key={link.label}
                 href={link.href}
-                className="rounded-sm text-label text-ink hover:text-accent-ink"
+                className="inline-flex min-h-11 items-center rounded-sm text-label text-ink hover:text-accent-ink"
               >
                 {link.label}
               </a>
@@ -77,12 +77,15 @@ export function Footer() {
         </div>
       </Container>
 
-      <p
+      <svg
         aria-hidden
-        className="pointer-events-none -mb-[0.3em] text-center text-[clamp(8rem,28vw,24rem)] leading-none font-semibold tracking-[-0.06em] text-sand-deep select-none"
+        viewBox="0 0 400 118"
+        className="pointer-events-none mx-auto -mb-[4%] block w-full max-w-page fill-sand-deep select-none"
       >
-        novi
-      </p>
+        <text x="50%" y="100" textAnchor="middle" fontSize="150" fontWeight="600" letterSpacing="-9">
+          novi
+        </text>
+      </svg>
     </footer>
   );
 }
