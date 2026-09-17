@@ -1,12 +1,14 @@
 "use client";
 
-import { useState } from "react";
-import { AnimatePresence, motion } from "motion/react";
+import { useEffect, useRef, useState, type RefObject } from "react";
+import { AnimatePresence, motion, useMotionValue, useScroll, useTransform } from "motion/react";
 import { Hand, LayoutGrid, MessageSquare, Settings, FileText } from "lucide-react";
 
 import { heroBoard } from "@/content/content";
 import { LogoMark } from "@/design-system";
-import { spring } from "@/lib/motion";
+import { useMediaQuery } from "@/hooks/use-media-query";
+import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion";
+import { scrollDrag, spring } from "@/lib/motion";
 import { KanbanBoard } from "./kanban-board";
 
 const railIcons = [
@@ -16,11 +18,57 @@ const railIcons = [
   { Icon: Settings, label: "Settings", active: false },
 ];
 
+// Scrubs 0→1 while the window climbs from near the viewport bottom to near its top.
+function useScrollDragProgress(target: RefObject<HTMLElement | null>) {
+  const { scrollY } = useScroll();
+  const start = useMotionValue(0);
+  const end = useMotionValue(1);
+
+  useEffect(() => {
+    const node = target.current;
+    if (!node) return;
+    const measure = () => {
+      let top = 0;
+      for (
+        let el: HTMLElement | null = node;
+        el;
+        el = el.offsetParent instanceof HTMLElement ? el.offsetParent : null
+      ) {
+        top += el.offsetTop;
+      }
+      const { range } = scrollDrag;
+      const from = Math.max(0, top - window.innerHeight * range.start);
+      start.set(from);
+      end.set(Math.max(from + range.minDistance, top - window.innerHeight * range.end));
+    };
+    measure();
+    const observer = new ResizeObserver(measure);
+    observer.observe(document.documentElement);
+    window.addEventListener("resize", measure);
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("resize", measure);
+    };
+  }, [target, start, end]);
+
+  return useTransform(() =>
+    Math.min(1, Math.max(0, (scrollY.get() - start.get()) / (end.get() - start.get()))),
+  );
+}
+
 export function NoviWindow() {
   const [hasDragged, setHasDragged] = useState(false);
+  const windowRef = useRef<HTMLDivElement>(null);
+  const progress = useScrollDragProgress(windowRef);
+  const reduceMotion = usePrefersReducedMotion();
+  const isGrid = useMediaQuery("(min-width: 40rem)");
+  const scripted = !reduceMotion && isGrid && !hasDragged;
 
   return (
-    <div className="overflow-hidden rounded-panel border border-hairline bg-surface shadow-window">
+    <div
+      ref={windowRef}
+      className="overflow-hidden rounded-panel border border-hairline bg-surface shadow-window"
+    >
       <div className="flex h-10 items-center gap-1.5 border-b border-hairline px-4">
         <span className="size-2.5 rounded-full bg-hairline-strong" />
         <span className="size-2.5 rounded-full bg-hairline-strong" />
@@ -75,7 +123,7 @@ export function NoviWindow() {
               )}
             </AnimatePresence>
           </div>
-          <KanbanBoard onFirstDrag={() => setHasDragged(true)} />
+          <KanbanBoard onFirstDrag={() => setHasDragged(true)} scrollDrag={scripted ? progress : undefined} />
         </div>
       </div>
     </div>

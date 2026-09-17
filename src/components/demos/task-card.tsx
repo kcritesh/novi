@@ -15,7 +15,7 @@ export function TaskCard({ task, lifted = false, className, ...props }: TaskCard
     <div
       className={cn(
         "rounded-card border border-hairline bg-surface p-3 text-left shadow-card",
-        lifted && "rotate-2 shadow-lift",
+        lifted && "shadow-lift",
         className,
       )}
       {...props}

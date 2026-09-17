@@ -10,7 +10,7 @@ export function scrollToHash(hash: string) {
 
   const lenis = getLenis();
   if (lenis) {
-    lenis.scrollTo(target, { offset: -80 });
+    lenis.scrollTo(target);
   } else {
     target.scrollIntoView({ behavior: prefersReducedMotion() ? "auto" : "smooth", block: "start" });
   }

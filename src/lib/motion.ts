@@ -54,6 +54,18 @@ export const rollNumber: Variants = {
 
 export const heroParallax: { y: string[]; scale: number[] } = { y: ["0%", "12%"], scale: [1, 1.06] };
 
+export const dragLift = { scale: 1.04, rotate: 3 } as const;
+
+// One scripted drag hop, as fractions of that hop's scroll range. Hero window scroll range is in viewport heights.
+export const scrollDrag = {
+  lift: [0.1, 0.25],
+  travel: [0.25, 0.75],
+  drop: [0.75, 0.9],
+  cursor: [0.02, 0.98],
+  arc: 14,
+  range: { start: 0.85, end: 0.2, minDistance: 320 },
+} as const;
+
 export const inViewOnce = { once: true, margin: "0px 0px -12% 0px" } as const;
 
 export const menuItem: Variants = {

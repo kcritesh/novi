@@ -58,6 +58,7 @@ export const heroBoard: {
   hint: string;
   columns: { id: ColumnId; title: string }[];
   tasks: Record<ColumnId, Task[]>;
+  scrollDrag: { taskId: string; path: ColumnId[] };
 } = {
   breadcrumb: { project: "Launch", view: "Q3 / Board" },
   hint: "Try dragging a card",
@@ -104,6 +105,7 @@ export const heroBoard: {
       },
     ],
   },
+  scrollDrag: { taskId: "t1", path: ["todo", "doing"] },
 };
 
 export type Wordmark = "fieldwork" | "loop" | "parcel" | "northwind" | "kiln" | "sundial";

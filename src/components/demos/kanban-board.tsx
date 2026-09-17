@@ -1,6 +1,6 @@
 "use client";
 
-import { useId, useRef, useState, useSyncExternalStore } from "react";
+import { useEffect, useId, useRef, useState, useSyncExternalStore } from "react";
 import { createPortal } from "react-dom";
 import {
   DndContext,
@@ -27,11 +27,20 @@ import {
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { AnimatePresence, motion } from "motion/react";
+import { AnimatePresence, motion, type MotionValue } from "motion/react";
 
 import { heroBoard, type ColumnId, type Task } from "@/content/content";
-import { spring } from "@/lib/motion";
+import { dragLift, spring } from "@/lib/motion";
 import { cn } from "@/lib/utils";
+import {
+  ScriptedDragLayer,
+  isScriptedTask,
+  sameLocation,
+  scriptLocation,
+  scriptedBoard,
+  type ScriptLocation,
+  type Slots,
+} from "./scripted-drag";
 import { TaskCard } from "./task-card";
 
 type Board = Record<ColumnId, Task[]>;
@@ -72,12 +81,17 @@ function columnTitle(id: ColumnId) {
 
 type KanbanBoardProps = {
   onFirstDrag?: () => void;
+  scrollDrag?: MotionValue<number>;
   className?: string;
 };
 
-export function KanbanBoard({ onFirstDrag, className }: KanbanBoardProps) {
+export function KanbanBoard({ onFirstDrag, scrollDrag, className }: KanbanBoardProps) {
   const dndId = useId();
-  const [board, setBoard] = useState<Board>(heroBoard.tasks);
+  const [boardState, setBoard] = useState<Board>(heroBoard.tasks);
+  const [script, setScript] = useState<ScriptLocation | null>(null);
+  const gridRef = useRef<HTMLDivElement>(null);
+  const lists = useRef<Partial<Record<ColumnId, HTMLUListElement>>>({});
+  const slots = useRef<Slots>({});
   const [activeId, setActiveId] = useState<UniqueIdentifier | null>(null);
   const boardBeforeDrag = useRef<Board | null>(null);
   const isClient = useSyncExternalStore(
@@ -92,6 +106,34 @@ export function KanbanBoard({ onFirstDrag, className }: KanbanBoardProps) {
     useSensor(KeyboardSensor, { coordinateGetter: keyboardCoordinates }),
   );
 
+  useEffect(() => {
+    if (!scrollDrag) return;
+    const sync = (progress: number) =>
+      setScript((prev) => {
+        const next = scriptLocation(progress);
+        return prev && sameLocation(prev, next) ? prev : next;
+      });
+    sync(scrollDrag.get());
+    return scrollDrag.on("change", sync);
+  }, [scrollDrag]);
+
+  useEffect(() => {
+    const grid = gridRef.current;
+    if (!scrollDrag || !grid) return;
+    const measure = () => {
+      for (const id of columnIds) {
+        const list = lists.current[id];
+        if (list) slots.current[id] = { x: list.offsetLeft, y: list.offsetTop, width: list.offsetWidth };
+      }
+    };
+    measure();
+    const observer = new ResizeObserver(measure);
+    observer.observe(grid);
+    return () => observer.disconnect();
+  }, [scrollDrag]);
+
+  const location = scrollDrag ? script : null;
+  const board = location ? scriptedBoard(location.column) : boardState;
   const activeTask = activeId ? findTask(board, activeId) : undefined;
 
   const announcements: Announcements = {
@@ -111,6 +153,7 @@ export function KanbanBoard({ onFirstDrag, className }: KanbanBoardProps) {
 
   function handleDragStart({ active }: DragStartEvent) {
     boardBeforeDrag.current = board;
+    setBoard(board);
     setActiveId(active.id);
     onFirstDrag?.();
   }
@@ -173,8 +216,9 @@ export function KanbanBoard({ onFirstDrag, className }: KanbanBoardProps) {
       }}
     >
       <div
+        ref={gridRef}
         className={cn(
-          "-mx-4 flex snap-x snap-mandatory [scrollbar-width:none] gap-3 overflow-x-auto px-4 pb-1 sm:mx-0 sm:grid sm:grid-cols-3 sm:overflow-visible sm:px-0",
+          "relative -mx-4 flex snap-x snap-mandatory [scrollbar-width:none] gap-3 overflow-x-auto px-4 pb-1 sm:mx-0 sm:grid sm:grid-cols-3 sm:overflow-visible sm:px-0",
           className,
         )}
       >
@@ -185,14 +229,25 @@ export function KanbanBoard({ onFirstDrag, className }: KanbanBoardProps) {
             title={column.title}
             tasks={board[column.id]}
             activeId={activeId}
+            ghost={location?.ghost === true}
+            highlighted={location?.over === column.id}
+            animateLayout={scrollDrag !== undefined}
+            listRef={(node) => {
+              if (node) lists.current[column.id] = node;
+            }}
           />
         ))}
+        {scrollDrag && <ScriptedDragLayer progress={scrollDrag} slots={slots} />}
       </div>
 
       {isClient &&
         createPortal(
           <DragOverlay dropAnimation={{ duration: 220, easing: "cubic-bezier(0.22, 1, 0.36, 1)" }}>
-            {activeTask ? <TaskCard task={activeTask} lifted className="cursor-grabbing" /> : null}
+            {activeTask ? (
+              <motion.div initial={{ scale: 1, rotate: 0 }} animate={dragLift} transition={spring.snappy}>
+                <TaskCard task={activeTask} lifted className="cursor-grabbing" />
+              </motion.div>
+            ) : null}
           </DragOverlay>,
           document.body,
         )}
@@ -205,9 +260,22 @@ type KanbanColumnProps = {
   title: string;
   tasks: Task[];
   activeId: UniqueIdentifier | null;
+  ghost: boolean;
+  highlighted: boolean;
+  animateLayout: boolean;
+  listRef: (node: HTMLUListElement | null) => void;
 };
 
-function KanbanColumn({ id, title, tasks, activeId }: KanbanColumnProps) {
+function KanbanColumn({
+  id,
+  title,
+  tasks,
+  activeId,
+  ghost,
+  highlighted,
+  animateLayout,
+  listRef,
+}: KanbanColumnProps) {
   const { setNodeRef, isOver } = useDroppable({ id });
 
   return (
@@ -215,7 +283,7 @@ function KanbanColumn({ id, title, tasks, activeId }: KanbanColumnProps) {
       aria-label={`${title}, ${tasks.length} ${tasks.length === 1 ? "card" : "cards"}`}
       className={cn(
         "flex w-[78%] shrink-0 snap-start flex-col rounded-card bg-paper p-2 transition-colors duration-fast sm:w-auto",
-        isOver && "bg-accent-tint",
+        (isOver || highlighted) && "bg-accent-tint",
       )}
     >
       <header className="flex items-center gap-2 px-1.5 pt-1 pb-2.5">
@@ -235,9 +303,20 @@ function KanbanColumn({ id, title, tasks, activeId }: KanbanColumnProps) {
         </span>
       </header>
       <SortableContext id={id} items={tasks.map((task) => task.id)} strategy={verticalListSortingStrategy}>
-        <ul ref={setNodeRef} className="flex min-h-24 flex-1 flex-col gap-2">
+        <ul
+          ref={(node) => {
+            setNodeRef(node);
+            listRef(node);
+          }}
+          className="flex min-h-24 flex-1 flex-col gap-2"
+        >
           {tasks.map((task) => (
-            <SortableTask key={task.id} task={task} dimmed={task.id === activeId} />
+            <SortableTask
+              key={task.id}
+              task={task}
+              dimmed={task.id === activeId || (ghost && isScriptedTask(task.id))}
+              animateLayout={animateLayout}
+            />
           ))}
         </ul>
       </SortableContext>
@@ -245,7 +324,9 @@ function KanbanColumn({ id, title, tasks, activeId }: KanbanColumnProps) {
   );
 }
 
-function SortableTask({ task, dimmed }: { task: Task; dimmed: boolean }) {
+type SortableTaskProps = { task: Task; dimmed: boolean; animateLayout: boolean };
+
+function SortableTask({ task, dimmed, animateLayout }: SortableTaskProps) {
   const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id: task.id });
 
   return (
@@ -254,15 +335,17 @@ function SortableTask({ task, dimmed }: { task: Task; dimmed: boolean }) {
       style={{ transform: CSS.Translate.toString(transform), transition }}
       className="touch-manipulation"
     >
-      <TaskCard
-        task={task}
-        {...attributes}
-        {...listeners}
-        className={cn(
-          "cursor-grab transition-[opacity,border-color,box-shadow] duration-fast hover:border-hairline-strong",
-          dimmed && "border-dashed border-hairline-strong bg-paper opacity-50 shadow-none",
-        )}
-      />
+      <motion.div layout={animateLayout ? "position" : false} transition={spring.snappy}>
+        <TaskCard
+          task={task}
+          {...attributes}
+          {...listeners}
+          className={cn(
+            "cursor-grab transition-[opacity,border-color,box-shadow] duration-fast hover:border-hairline-strong",
+            dimmed && "border-dashed border-hairline-strong bg-paper opacity-50 shadow-none",
+          )}
+        />
+      </motion.div>
     </li>
   );
 }
