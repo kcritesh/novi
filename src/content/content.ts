@@ -158,7 +158,6 @@ export const features = {
       { author: people.maya, text: "Shipping that version to review now." },
     ],
     reactions: 3,
-    replay: "Replay thread",
   },
   timeline: {
     title: "One timeline for the whole team",

@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion, useInView } from "motion/react";
-import { RotateCcw, ThumbsUp } from "lucide-react";
+import { ThumbsUp } from "lucide-react";
 
 import { features } from "@/content/content";
 import { Avatar, Pill } from "@/design-system";
@@ -10,11 +10,17 @@ import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion";
 import { spring } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
-const { task, messages, reactions, replay } = features.threads;
+const { task, messages, reactions } = features.threads;
 
 type ThreadState = { shown: number; typing: boolean; chars: number; reacted: boolean };
 
-const emptyState: ThreadState = { shown: 0, typing: false, chars: 0, reacted: false };
+const preloaded = 2;
+const initialState: ThreadState = {
+  shown: preloaded,
+  typing: false,
+  chars: messages[preloaded - 1].text.length,
+  reacted: false,
+};
 const finalState: ThreadState = {
   shown: messages.length,
   typing: false,
@@ -26,8 +32,7 @@ export function ThreadDemo() {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, amount: 0.5 });
   const reduceMotion = usePrefersReducedMotion();
-  const [run, setRun] = useState(0);
-  const [state, setState] = useState<ThreadState>(emptyState);
+  const [state, setState] = useState<ThreadState>(initialState);
 
   useEffect(() => {
     if (!inView || reduceMotion) return;
@@ -36,9 +41,9 @@ export function ThreadDemo() {
     const wait = (ms: number) => new Promise<void>((resolve) => timers.push(window.setTimeout(resolve, ms)));
 
     async function play() {
-      for (let index = 0; index < messages.length; index++) {
+      for (let index = preloaded; index < messages.length; index++) {
         setState((s) => ({ ...s, typing: true }));
-        await wait(index === 0 ? 400 : 900);
+        await wait(index === preloaded ? 600 : 900);
         if (cancelled) return;
         setState((s) => ({ ...s, typing: false, shown: index + 1, chars: 0 }));
         for (let char = 1; char <= messages[index].text.length; char++) {
@@ -56,10 +61,9 @@ export function ThreadDemo() {
       cancelled = true;
       timers.forEach((timer) => window.clearTimeout(timer));
     };
-  }, [inView, reduceMotion, run]);
+  }, [inView, reduceMotion]);
 
   const view = reduceMotion ? finalState : state;
-  const finished = view.reacted;
 
   return (
     <div ref={ref} className="relative">
@@ -115,7 +119,6 @@ export function ThreadDemo() {
                 key="typing"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
                 className="flex items-center gap-2"
               >
                 <Avatar
@@ -142,21 +145,6 @@ export function ThreadDemo() {
       <p className="sr-only">
         A task card with a comment thread: {messages.map((m) => `${m.author.name}: ${m.text}`).join(" ")}
       </p>
-
-      {!reduceMotion && (
-        <button
-          type="button"
-          onClick={() => {
-            setState(emptyState);
-            setRun((count) => count + 1);
-          }}
-          disabled={!finished}
-          className="mt-3 inline-flex h-11 cursor-pointer items-center gap-1.5 rounded-control px-2 text-caption text-muted transition-[color,opacity] duration-fast hover:text-ink disabled:pointer-events-none disabled:opacity-0"
-        >
-          <RotateCcw aria-hidden className="size-3.5" />
-          {replay}
-        </button>
-      )}
     </div>
   );
 }
