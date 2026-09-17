@@ -18,7 +18,9 @@ const railIcons = [
   { Icon: Settings, label: "Settings", active: false },
 ];
 
-// Scrubs 0→1 while the window climbs from near the viewport bottom to near its top.
+const hops = heroBoard.scrollDrag.path.length - 1;
+
+// Scrubs 0→1 over `perHop` viewport heights per hop, starting once the window nears the viewport bottom.
 function useScrollDragProgress(target: RefObject<HTMLElement | null>) {
   const { scrollY } = useScroll();
   const start = useMotionValue(0);
@@ -39,7 +41,7 @@ function useScrollDragProgress(target: RefObject<HTMLElement | null>) {
       const { range } = scrollDrag;
       const from = Math.max(0, top - window.innerHeight * range.start);
       start.set(from);
-      end.set(Math.max(from + range.minDistance, top - window.innerHeight * range.end));
+      end.set(from + window.innerHeight * range.perHop * hops);
     };
     measure();
     const observer = new ResizeObserver(measure);

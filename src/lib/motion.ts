@@ -56,20 +56,21 @@ export const heroParallax: { y: string[]; scale: number[] } = { y: ["0%", "12%"]
 
 export const dragLift = { scale: 1.04, rotate: 3 } as const;
 
-// One scripted drag hop, as fractions of that hop's scroll range. Hero window scroll range is in viewport heights.
+// One scripted drag hop, as fractions of that hop's scroll range. Hero window scroll range is in viewport heights; each hop gets `perHop` of scroll.
 export const scrollDrag = {
   lift: [0.1, 0.25],
   travel: [0.25, 0.75],
   drop: [0.75, 0.9],
   cursor: [0.02, 0.98],
   arc: 14,
-  range: { start: 0.85, end: 0.2, minDistance: 320 },
+  range: { start: 0.85, perHop: 1 },
 } as const;
 
-// Timeline scrubber sweeps start→end while the demo's top climbs from 85% to 20% of the viewport, matching the hero drag.
-// Snaps to `moves` evenly spaced jumps so the short scroll range doesn't flick through each date.
-export const timelineScrub: { offset: ["start 0.85", "start 0.2"]; moves: number } = {
-  offset: ["start 0.85", "start 0.2"],
+// Timeline scrubber sweeps start→end from the demo's top entering the viewport until its bottom reaches 40%,
+// so the sweep spans its own height plus 60vh and finishes while the demo is still fully visible.
+// Snaps to `moves` evenly spaced jumps so it doesn't flick through each date.
+export const timelineScrub: { offset: ["start end", "end 0.4"]; moves: number } = {
+  offset: ["start end", "end 0.4"],
   moves: 4,
 };
 
