@@ -7,7 +7,7 @@ import { Providers } from "./providers";
 import "./globals.css";
 
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
-const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
+const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"], preload: false });
 const instrumentSerif = Instrument_Serif({
   variable: "--font-instrument-serif",
   subsets: ["latin"],
@@ -18,6 +18,9 @@ const instrumentSerif = Instrument_Serif({
 export const metadata: Metadata = {
   title: site.title,
   description: site.description,
+  applicationName: site.name,
+  openGraph: { title: site.title, description: site.description, siteName: site.name, type: "website" },
+  twitter: { card: "summary_large_image", title: site.title, description: site.description },
 };
 
 export const viewport: Viewport = {

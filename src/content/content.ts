@@ -2,7 +2,7 @@ export type NavLink = { label: string; href: `#${string}` };
 
 export const site = {
   name: "Novi",
-  title: "Novi — Run your team without the tab switching",
+  title: "Novi: Run your team without the tab switching",
   description:
     "Novi brings tasks, docs, and conversations into one calm workspace built for small, fast moving teams.",
   tagline: "One calm place for fast teams.",
