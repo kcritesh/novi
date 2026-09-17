@@ -1,3 +1,10 @@
+import type { StaticImageData } from "next/image";
+
+import anaPhoto from "@/assets/avatars/ana.jpg";
+import joshuaPhoto from "@/assets/avatars/joshua.jpg";
+import mayaPhoto from "@/assets/avatars/maya.jpg";
+import samPhoto from "@/assets/avatars/sam.jpg";
+
 export type NavLink = { label: string; href: `#${string}` };
 
 export const site = {
@@ -28,7 +35,7 @@ export const hero = {
 } as const;
 
 export type Tone = "accent" | "green" | "amber" | "rose" | "neutral";
-export type Person = { name: string; tone: Exclude<Tone, "neutral"> };
+export type Person = { name: string; tone: Exclude<Tone, "neutral">; photo: StaticImageData };
 export type TaskTag = { label: string; tone: Tone };
 export type Task = {
   id: string;
@@ -40,10 +47,10 @@ export type Task = {
 export type ColumnId = "todo" | "doing" | "done";
 
 export const people = {
-  maya: { name: "Maya Lin", tone: "accent" },
-  joshua: { name: "Joshua Reed", tone: "green" },
-  ana: { name: "Ana Ortiz", tone: "rose" },
-  sam: { name: "Sam Patel", tone: "amber" },
+  maya: { name: "Maya Lin", tone: "accent", photo: mayaPhoto },
+  joshua: { name: "Joshua Reed", tone: "green", photo: joshuaPhoto },
+  ana: { name: "Ana Ortiz", tone: "rose", photo: anaPhoto },
+  sam: { name: "Sam Patel", tone: "amber", photo: samPhoto },
 } satisfies Record<string, Person>;
 
 export const tags = {

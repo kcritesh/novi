@@ -82,7 +82,7 @@ function ImportVisual() {
                 <Check aria-hidden className="size-2.5" strokeWidth={3} />
               </span>
               <span className="min-w-0 flex-1 truncate text-caption text-ink">{task.title}</span>
-              <Avatar name={task.owner.name} tone={task.owner.tone} />
+              <Avatar name={task.owner.name} src={task.owner.photo} tone={task.owner.tone} />
             </motion.li>
           ))}
         </motion.ul>
@@ -118,7 +118,7 @@ function OrganizeVisual() {
               >
                 <span className="truncate text-caption text-ink">{task.title}</span>
                 <span className="inline-flex items-center gap-1.5 text-caption text-muted">
-                  <Avatar name={task.owner.name} tone={task.owner.tone} />
+                  <Avatar name={task.owner.name} src={task.owner.photo} tone={task.owner.tone} />
                   <span className="hidden sm:inline">{task.owner.name.split(" ")[0]}</span>
                 </span>
                 <Pill tone="neutral">{task.due}</Pill>

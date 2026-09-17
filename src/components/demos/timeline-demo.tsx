@@ -215,7 +215,7 @@ export function TimelineDemo() {
                 transition={spring.soft}
                 className="flex items-center gap-3 rounded-card border border-hairline bg-paper px-3 py-2.5"
               >
-                <Avatar name={milestone.owner.name} tone={milestone.owner.tone} size="md" />
+                <Avatar name={milestone.owner.name} src={milestone.owner.photo} tone={milestone.owner.tone} size="md" />
                 <div className="min-w-0">
                   <p className="text-label font-medium text-ink">
                     {milestone.label}

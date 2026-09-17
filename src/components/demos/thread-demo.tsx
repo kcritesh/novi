@@ -82,7 +82,7 @@ export function ThreadDemo() {
                   transition={spring.soft}
                   className="flex items-start gap-2"
                 >
-                  <Avatar name={message.author.name} tone={message.author.tone} />
+                  <Avatar name={message.author.name} src={message.author.photo} tone={message.author.tone} />
                   <div
                     className={cn(
                       "relative min-w-0 rounded-card rounded-tl-sm bg-paper px-2.5 py-1.5",
@@ -120,6 +120,7 @@ export function ThreadDemo() {
               >
                 <Avatar
                   name={messages[view.shown]?.author.name ?? "Teammate"}
+                  src={messages[view.shown]?.author.photo}
                   tone={messages[view.shown]?.author.tone}
                 />
                 <span className="inline-flex h-7 items-center gap-1 rounded-full bg-paper px-3">

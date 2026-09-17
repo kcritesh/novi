@@ -1,10 +1,11 @@
 import type { ComponentProps } from "react";
+import Image, { type StaticImageData } from "next/image";
 import { cva, type VariantProps } from "class-variance-authority";
 
 import { cn } from "@/lib/utils";
 
 const avatarVariants = cva(
-  "inline-flex shrink-0 items-center justify-center rounded-full font-medium ring-2 ring-surface select-none",
+  "relative inline-flex shrink-0 items-center justify-center rounded-full font-medium ring-2 ring-surface select-none",
   {
     variants: {
       tone: {
@@ -29,6 +30,7 @@ export type AvatarTone = NonNullable<VariantProps<typeof avatarVariants>["tone"]
 type AvatarProps = Omit<ComponentProps<"span">, "children"> &
   VariantProps<typeof avatarVariants> & {
     name: string;
+    src?: StaticImageData;
   };
 
 function initials(name: string) {
@@ -40,7 +42,7 @@ function initials(name: string) {
     .toUpperCase();
 }
 
-export function Avatar({ name, tone, size, className, ...props }: AvatarProps) {
+export function Avatar({ name, src, tone, size, className, ...props }: AvatarProps) {
   return (
     <span
       role="img"
@@ -49,7 +51,11 @@ export function Avatar({ name, tone, size, className, ...props }: AvatarProps) {
       className={cn(avatarVariants({ tone, size }), className)}
       {...props}
     >
-      {initials(name)}
+      {src ? (
+        <Image src={src} alt="" fill sizes="32px" className="rounded-full object-cover" />
+      ) : (
+        initials(name)
+      )}
     </span>
   );
 }

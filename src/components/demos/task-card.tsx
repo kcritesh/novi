@@ -31,7 +31,7 @@ export function TaskCard({ task, lifted = false, className, ...props }: TaskCard
         </span>
         <AvatarStack>
           {task.assignees.map((person) => (
-            <Avatar key={person.name} name={person.name} tone={person.tone} size="sm" />
+            <Avatar key={person.name} name={person.name} src={person.photo} tone={person.tone} size="sm" />
           ))}
         </AvatarStack>
       </div>
