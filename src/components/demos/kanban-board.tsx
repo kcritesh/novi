@@ -32,6 +32,7 @@ import { AnimatePresence, motion, type MotionValue } from "motion/react";
 import { heroBoard, type ColumnId, type Task } from "@/content/content";
 import { dragLift, spring } from "@/lib/motion";
 import { cn } from "@/lib/utils";
+import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion";
 import {
   ScriptedDragLayer,
   isScriptedTask,
@@ -94,6 +95,7 @@ export function KanbanBoard({ onFirstDrag, scrollDrag, className }: KanbanBoardP
   const slots = useRef<Slots>({});
   const [activeId, setActiveId] = useState<UniqueIdentifier | null>(null);
   const boardBeforeDrag = useRef<Board | null>(null);
+  const reduceMotion = usePrefersReducedMotion();
   const isClient = useSyncExternalStore(
     noopSubscribe,
     () => true,
@@ -180,13 +182,28 @@ export function KanbanBoard({ onFirstDrag, scrollDrag, className }: KanbanBoardP
     });
   }
 
+  // On mobile the grid is a snap carousel; settle on the column the card landed in.
+  function scrollToColumn(column: ColumnId | undefined) {
+    const grid = gridRef.current;
+    const section = column ? lists.current[column]?.closest("section") : null;
+    if (!grid || !section || grid.scrollWidth <= grid.clientWidth) return;
+    grid.scrollTo({
+      left: section.offsetLeft - parseFloat(getComputedStyle(grid).paddingLeft),
+      behavior: reduceMotion ? "auto" : "smooth",
+    });
+  }
+
   function handleDragCancel() {
     setActiveId(null);
-    if (boardBeforeDrag.current) setBoard(boardBeforeDrag.current);
+    if (boardBeforeDrag.current) {
+      setBoard(boardBeforeDrag.current);
+      scrollToColumn(findColumn(boardBeforeDrag.current, activeId ?? ""));
+    }
   }
 
   function handleDragEnd({ active, over }: DragEndEvent) {
     setActiveId(null);
+    scrollToColumn(findColumn(board, active.id));
     if (!over) return;
     setBoard((current) => {
       const column = findColumn(current, active.id);
@@ -207,6 +224,7 @@ export function KanbanBoard({ onFirstDrag, scrollDrag, className }: KanbanBoardP
       onDragOver={handleDragOver}
       onDragEnd={handleDragEnd}
       onDragCancel={handleDragCancel}
+      autoScroll={{ threshold: { x: 0.25, y: 0.2 }, acceleration: 14 }}
       accessibility={{
         announcements,
         screenReaderInstructions: {
@@ -218,7 +236,9 @@ export function KanbanBoard({ onFirstDrag, scrollDrag, className }: KanbanBoardP
       <div
         ref={gridRef}
         className={cn(
-          "relative -mx-4 flex snap-x snap-mandatory [scrollbar-width:none] gap-3 overflow-x-auto px-4 pb-1 sm:mx-0 sm:grid sm:grid-cols-3 sm:overflow-visible sm:px-0",
+          "relative -mx-4 flex snap-x snap-mandatory scroll-px-4 [scrollbar-width:none] gap-3 overflow-x-auto px-4 pb-1 sm:mx-0 sm:grid sm:grid-cols-3 sm:overflow-visible sm:px-0",
+          // Snap fights dnd-kit's incremental auto-scroll, pinning the board to the current column.
+          activeId !== null && "snap-none",
           className,
         )}
       >
