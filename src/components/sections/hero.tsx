@@ -1,14 +1,19 @@
 "use client";
 
+import { useRef, type RefObject } from "react";
+import Image from "next/image";
 import { ArrowDown, ArrowRight } from "lucide-react";
-import { motion } from "motion/react";
+import { motion, useScroll, useTransform } from "motion/react";
+
+import heroSky from "@/assets/hero-sky.jpeg";
 
 import { NoviWindow } from "@/components/demos/novi-window";
 import { TabCollapse } from "@/components/demos/tab-collapse";
 import { hero } from "@/content/content";
 import { Button, Em, Heading, Pill, Section, Text } from "@/design-system";
 import { useMagnetic } from "@/hooks/use-magnetic";
-import { spring } from "@/lib/motion";
+import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion";
+import { heroParallax, spring } from "@/lib/motion";
 
 function Scribble() {
   return (
@@ -36,21 +41,46 @@ function Scribble() {
   );
 }
 
+function HeroBackdrop({ target }: { target: RefObject<HTMLElement | null> }) {
+  const reduceMotion = usePrefersReducedMotion();
+  const { scrollYProgress } = useScroll({ target, offset: ["start start", "end start"] });
+  const y = useTransform(scrollYProgress, [0, 1], heroParallax.y);
+  const scale = useTransform(scrollYProgress, [0, 1], heroParallax.scale);
+
+  return (
+    <div
+      aria-hidden
+      className="pointer-events-none absolute top-0 left-1/2 -z-10 h-184 w-screen -translate-x-1/2 overflow-hidden hero-fade sm:h-224"
+    >
+      <motion.div className="absolute inset-0" style={reduceMotion ? undefined : { y, scale }}>
+        <Image
+          src={heroSky}
+          alt=""
+          fill
+          priority
+          sizes="100vw"
+          placeholder="blur"
+          className="object-cover object-[50%_35%]"
+        />
+      </motion.div>
+      <div className="absolute inset-0 hero-veil" />
+    </div>
+  );
+}
+
 export function Hero() {
   const magnetic = useMagnetic<HTMLAnchorElement>(0.3);
+  const sectionRef = useRef<HTMLElement>(null);
 
   return (
     <Section
+      ref={sectionRef}
       id="overview"
-      index="01"
-      label="Overview"
-      className="overflow-hidden border-t-0"
-      containerClassName="pt-12 pb-16 sm:pt-20 sm:pb-24 lg:pt-24"
+      railed={false}
+      className="isolate -mt-16 overflow-hidden border-t-0"
+      containerClassName="pt-28 pb-16 sm:pt-36 sm:pb-24 lg:pt-40"
     >
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-x-0 top-0 h-[40rem] dot-grid dot-grid-fade"
-      />
+      <HeroBackdrop target={sectionRef} />
 
       <div className="relative text-center">
         <div className="animate-rise-in">

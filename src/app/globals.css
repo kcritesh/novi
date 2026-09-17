@@ -184,8 +184,19 @@
   background-size: 24px 24px;
 }
 
-@utility dot-grid-fade {
-  mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, black 30%, transparent 100%);
+@utility hero-fade {
+  mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+}
+
+@utility hero-veil {
+  background-image:
+    linear-gradient(to bottom, color-mix(in oklab, var(--color-paper) 75%, transparent) 0, transparent 9rem),
+    radial-gradient(
+      ellipse 60% 45% at 50% 32%,
+      var(--color-paper) 0%,
+      color-mix(in oklab, var(--color-paper) 75%, transparent) 55%,
+      transparent 100%
+    );
 }
 
 @utility grain-overlay {

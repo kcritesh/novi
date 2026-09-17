@@ -52,6 +52,8 @@ export const rollNumber: Variants = {
   exit: (direction: number) => ({ y: `${60 * direction}%`, opacity: 0 }),
 };
 
+export const heroParallax: { y: string[]; scale: number[] } = { y: ["0%", "12%"], scale: [1, 1.06] };
+
 export const inViewOnce = { once: true, margin: "0px 0px -12% 0px" } as const;
 
 export const menuItem: Variants = {
