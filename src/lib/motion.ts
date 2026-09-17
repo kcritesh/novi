@@ -41,7 +41,7 @@ export function stagger(gap = 0.06, delayChildren = 0): Variants {
   };
 }
 
-export const inViewOnce = { once: true, amount: 0.3 } as const;
+export const inViewOnce = { once: true, margin: "0px 0px -12% 0px" } as const;
 
 export const menuItem: Variants = {
   hidden: { opacity: 0, y: 12 },
