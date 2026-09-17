@@ -35,8 +35,10 @@ function FeatureCard({ icon: Icon, title, description, className, children }: Fe
           "hover:before:opacity-100",
         )}
       >
-        <Icon aria-hidden className="size-6 text-accent" strokeWidth={1.5} />
-        <h3 className="mt-5 text-title font-semibold text-ink">{title}</h3>
+        <div className="flex items-center gap-2.5">
+          <Icon aria-hidden className="size-6 shrink-0 text-ink" strokeWidth={1.5} />
+          <h3 className="text-title font-semibold text-ink">{title}</h3>
+        </div>
         <Text className="mt-1.5 max-w-md">{description}</Text>
         <div className="mt-7 flex-1">{children}</div>
       </article>
@@ -72,22 +74,28 @@ export function Features() {
         </Reveal>
       </div>
 
-      <RevealGroup className="mt-12 grid gap-4 md:grid-cols-2 lg:mt-16 lg:grid-cols-3">
+      <RevealGroup className="mt-12 grid gap-4 md:grid-cols-2 lg:mt-16 lg:grid-cols-5">
         <FeatureCard
           icon={LayoutGrid}
           title={features.boards.title}
           description={features.boards.description}
-          className="md:col-span-2"
+          className="md:col-span-2 lg:col-span-3"
         >
           <BoardShuffleDemo />
         </FeatureCard>
-        <FeatureCard icon={Import} title={features.import.title} description={features.import.description}>
+        <FeatureCard
+          icon={Import}
+          title={features.import.title}
+          description={features.import.description}
+          className="lg:col-span-2"
+        >
           <ImportDemo />
         </FeatureCard>
         <FeatureCard
           icon={MessageSquare}
           title={features.threads.title}
           description={features.threads.description}
+          className="lg:col-span-2"
         >
           <ThreadDemo />
         </FeatureCard>
@@ -95,7 +103,7 @@ export function Features() {
           icon={CalendarRange}
           title={features.timeline.title}
           description={features.timeline.description}
-          className="md:col-span-2 lg:col-span-2"
+          className="md:col-span-2 lg:col-span-3"
         >
           <TimelineDemo />
         </FeatureCard>
