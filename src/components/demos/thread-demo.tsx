@@ -1,11 +1,12 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { AnimatePresence, motion, useInView, useReducedMotion } from "motion/react";
+import { AnimatePresence, motion, useInView } from "motion/react";
 import { RotateCcw, ThumbsUp } from "lucide-react";
 
 import { features } from "@/content/content";
 import { Avatar, Pill } from "@/design-system";
+import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion";
 import { spring } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
@@ -24,7 +25,7 @@ const finalState: ThreadState = {
 export function ThreadDemo() {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, amount: 0.5 });
-  const reduceMotion = useReducedMotion();
+  const reduceMotion = usePrefersReducedMotion();
   const [run, setRun] = useState(0);
   const [state, setState] = useState<ThreadState>(emptyState);
 

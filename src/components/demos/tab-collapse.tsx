@@ -1,10 +1,11 @@
 "use client";
 
 import { useEffect, useState, type ComponentType, type ReactNode } from "react";
-import { motion, useReducedMotion } from "motion/react";
+import { motion } from "motion/react";
 import { RotateCcw } from "lucide-react";
 
 import { useMediaQuery } from "@/hooks/use-media-query";
+import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion";
 import { spring } from "@/lib/motion";
 import { BoardGhost, ChatGhost, DocGhost, SheetGhost } from "./ghost-windows";
 
@@ -26,7 +27,7 @@ const ghosts: Ghost[] = [
 const MERGE_DELAY_MS = { desktop: 1100, mobile: 350 };
 
 export function TabCollapse({ children }: { children: ReactNode }) {
-  const reduceMotion = useReducedMotion();
+  const reduceMotion = usePrefersReducedMotion();
   const isDesktop = useMediaQuery("(min-width: 48rem)", true);
   const [run, setRun] = useState(0);
   const [merged, setMerged] = useState(false);

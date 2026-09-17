@@ -1,12 +1,13 @@
 "use client";
 
 import type { PointerEvent } from "react";
-import { useMotionValue, useReducedMotion, useSpring } from "motion/react";
+import { useMotionValue, useSpring } from "motion/react";
 
+import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion";
 import { spring } from "@/lib/motion";
 
 export function useMagnetic<T extends HTMLElement>(strength = 0.25) {
-  const reduceMotion = useReducedMotion();
+  const reduceMotion = usePrefersReducedMotion();
   const rawX = useMotionValue(0);
   const rawY = useMotionValue(0);
   const x = useSpring(rawX, spring.snappy);

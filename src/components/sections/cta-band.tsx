@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef } from "react";
-import { motion, useInView, useReducedMotion } from "motion/react";
+import { motion, useInView } from "motion/react";
 import { ArrowRight, Check } from "lucide-react";
 import { toast } from "sonner";
 
@@ -9,13 +9,14 @@ import { Reveal } from "@/components/motion/reveal";
 import { cta } from "@/content/content";
 import { Button, Em, Heading, Pill, Section, Text } from "@/design-system";
 import { useMagnetic } from "@/hooks/use-magnetic";
+import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion";
 import { spring } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
 function WeekCard() {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: "0px 0px -25% 0px" });
-  const reduceMotion = useReducedMotion();
+  const reduceMotion = usePrefersReducedMotion();
   const settled = inView || reduceMotion;
 
   return (

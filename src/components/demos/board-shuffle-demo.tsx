@@ -1,9 +1,10 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { LayoutGroup, motion, useInView, useReducedMotion } from "motion/react";
+import { LayoutGroup, motion, useInView } from "motion/react";
 
 import { features } from "@/content/content";
+import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion";
 import { spring } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
@@ -35,7 +36,7 @@ function advance(columns: Columns): Columns {
 export function BoardShuffleDemo() {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { amount: 0.4 });
-  const reduceMotion = useReducedMotion();
+  const reduceMotion = usePrefersReducedMotion();
   const [paused, setPaused] = useState(false);
   const [columns, setColumns] = useState<Columns>(initialColumns);
 
