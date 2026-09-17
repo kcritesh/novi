@@ -310,7 +310,7 @@ export const howItWorks = {
     },
     ship: {
       project: "Launch — Q3",
-      startDone: 22,
+      startDone: 21,
       total: 24,
       tasksDone: "tasks done",
       status: { open: "On track", shipped: "Shipped" },

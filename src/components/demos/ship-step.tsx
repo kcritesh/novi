@@ -6,14 +6,21 @@ import { Check, CheckCircle2 } from "lucide-react";
 import { howItWorks } from "@/content/content";
 import { Avatar, AvatarStack, Pill } from "@/design-system";
 import { useScript } from "@/hooks/use-script";
-import { fadeUp, spring } from "@/lib/motion";
+import { ease, fadeUp, spring } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
 const { ship } = howItWorks.visuals;
 
-// Remaining tasks tick to done one at a time, then the project flips to shipped.
+// Remaining tasks tick to done one at a time while the current milestone advances from Build to Launch,
+// then the project flips to shipped.
 const remaining = ship.total - ship.startDone;
-const delays = [900, ...Array.from({ length: remaining }, () => 800), 400];
+const delays = [300, ...Array.from({ length: remaining }, () => 220), 200];
+const firstActive = 2;
+
+function activeMilestone(done: number) {
+  const span = ship.milestones.length - firstActive;
+  return firstActive + Math.floor(((done - ship.startDone) * span) / (remaining + 1));
+}
 
 function Ring({ done }: { done: number }) {
   return (
@@ -29,7 +36,7 @@ function Ring({ done }: { done: number }) {
           strokeLinecap="round"
           initial={{ pathLength: ship.startDone / ship.total }}
           animate={{ pathLength: done / ship.total }}
-          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: 0.25, ease: ease.outSoft }}
         />
       </svg>
       <div className="absolute inset-0 flex flex-col items-center justify-center">
@@ -58,6 +65,7 @@ export function ShipStep() {
   const step = useScript(delays);
   const done = ship.startDone + Math.max(0, Math.min(remaining, step - 1));
   const shipped = step === delays.length;
+  const active = shipped ? ship.milestones.length : activeMilestone(done);
 
   return (
     <div className="flex h-full items-center">
@@ -95,28 +103,35 @@ export function ShipStep() {
           <ol className="relative mt-5 grid grid-cols-4">
             <span aria-hidden className="absolute top-3.5 right-[12.5%] left-[12.5%] h-px bg-hairline" />
             {ship.milestones.map((milestone, index) => {
-              const last = index === ship.milestones.length - 1;
-              const reached = !last || shipped;
+              const reached = index < active;
+              const current = index === active;
               return (
                 <li key={milestone} className="relative flex flex-col items-center gap-1.5 text-center">
                   <span
                     className={cn(
                       "relative flex size-7 items-center justify-center rounded-full transition-colors duration-slow",
-                      reached ? "bg-green-tint text-green-ink" : "border-2 border-accent bg-surface",
+                      reached && "bg-green-tint text-green-ink",
+                      current && "border-2 border-accent bg-surface",
+                      !reached && !current && "border-2 border-hairline bg-surface",
                     )}
                   >
                     {reached ? (
                       <Check aria-hidden className="size-3.5" strokeWidth={2.5} />
-                    ) : (
+                    ) : current ? (
                       <motion.span
                         aria-hidden
                         className="absolute inset-0 rounded-full border border-accent"
                         animate={{ scale: [1, 1.6], opacity: [0.5, 0] }}
-                        transition={{ duration: 1.6, repeat: Infinity, ease: "easeOut" }}
+                        transition={{ duration: 1.2, repeat: Infinity, ease: "easeOut" }}
                       />
-                    )}
+                    ) : null}
                   </span>
-                  <span className={cn("text-micro", last && !shipped ? "text-accent-ink" : "text-ink")}>
+                  <span
+                    className={cn(
+                      "text-micro",
+                      current ? "text-accent-ink" : reached ? "text-ink" : "text-muted",
+                    )}
+                  >
                     {milestone}
                   </span>
                 </li>
@@ -138,7 +153,7 @@ export function ShipStep() {
           <motion.span
             initial={{ opacity: 0, scale: 0.9, y: -4 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            transition={{ ...spring.bouncy, delay: 0.2 }}
+            transition={{ ...spring.bouncy, delay: 0.1 }}
             className="absolute -top-4 right-3 inline-flex items-center gap-1.5 rounded-full border border-hairline bg-surface px-2.5 py-1 text-caption font-medium text-ink shadow-lift"
           >
             <CheckCircle2 aria-hidden className="size-4 text-green-ink" />
