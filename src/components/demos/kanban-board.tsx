@@ -76,6 +76,10 @@ const keyboardCoordinates: KeyboardCoordinateGetter = (event, args) => {
   return rect ? { x: rect.left, y: rect.top } : args.currentCoordinates;
 };
 
+// Height reserved per column so cards crossing columns never resize the window:
+// 4 cards on mobile (480px), 5 from sm up (600px), at 113px per card plus 8px gaps.
+const COLUMN_RESERVE = "min-h-120 sm:min-h-150";
+
 function columnTitle(id: ColumnId) {
   return heroBoard.columns.find((column) => column.id === id)?.title ?? id;
 }
@@ -328,7 +332,7 @@ function KanbanColumn({
             setNodeRef(node);
             listRef(node);
           }}
-          className="flex min-h-24 flex-1 flex-col gap-2"
+          className={cn("flex flex-1 flex-col gap-2", COLUMN_RESERVE)}
         >
           {tasks.map((task) => (
             <SortableTask

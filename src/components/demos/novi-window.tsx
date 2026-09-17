@@ -100,7 +100,8 @@ export function NoviWindow() {
         </nav>
 
         <div className="min-w-0 flex-1 p-4 sm:p-5">
-          <div className="mb-4 flex items-center justify-between gap-3">
+          {/* Fixed height: the hint pill unmounts after the first drag and must not resize the window. */}
+          <div className="mb-4 flex h-8 items-center justify-between gap-3">
             <p className="truncate text-body font-semibold text-ink">
               {heroBoard.breadcrumb.project}
               <span className="hidden font-normal text-muted sm:inline"> — {heroBoard.breadcrumb.view}</span>
