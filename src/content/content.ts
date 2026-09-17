@@ -291,3 +291,70 @@ export const howItWorks = {
     },
   },
 } as const;
+
+export type Billing = "monthly" | "yearly";
+
+export const pricing = {
+  eyebrow: "Pricing",
+  heading: { lead: "Simple pricing", quietLead: "for", emphasis: "small", quietTail: "teams." },
+  support: "Start free. Upgrade when your team grows.",
+  billing: {
+    monthly: "Monthly",
+    yearly: "Yearly",
+    saving: "Save 20%",
+    yearlyDiscount: 0.2,
+    yearlyNote: "Billed yearly",
+  },
+  popular: "Most popular",
+  footnote: "Prices in USD. Cancel anytime.",
+  toast: { title: "You're early!", description: "Novi is a demo. Picked plan: {plan}." },
+  plans: [
+    {
+      id: "free",
+      name: "Free",
+      audience: "For getting started",
+      monthly: 0,
+      unit: "forever",
+      cta: "Start free",
+      featured: false,
+      features: [
+        "Up to 10 members",
+        "Unlimited boards",
+        "Threads on every task",
+        "Import from Trello & Asana",
+      ],
+    },
+    {
+      id: "team",
+      name: "Team",
+      audience: "For growing teams",
+      monthly: 8,
+      unit: "user / month",
+      cta: "Start 14-day trial",
+      featured: true,
+      features: [
+        "Everything in Free",
+        "Unlimited members",
+        "Timeline view",
+        "Guest access",
+        "Priority support",
+      ],
+    },
+    {
+      id: "business",
+      name: "Business",
+      audience: "For multi-team orgs",
+      monthly: 16,
+      unit: "user / month",
+      cta: "Talk to us",
+      featured: false,
+      features: [
+        "Everything in Team",
+        "SSO & SCIM",
+        "Advanced permissions",
+        "Audit log",
+        "Dedicated onboarding",
+      ],
+    },
+  ],
+} as const;

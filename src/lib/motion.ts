@@ -46,6 +46,12 @@ export function stagger(gap = 0.06, delayChildren = 0): Variants {
   };
 }
 
+export const rollNumber: Variants = {
+  enter: (direction: number) => ({ y: `${-60 * direction}%`, opacity: 0 }),
+  center: { y: "0%", opacity: 1 },
+  exit: (direction: number) => ({ y: `${60 * direction}%`, opacity: 0 }),
+};
+
 export const inViewOnce = { once: true, margin: "0px 0px -12% 0px" } as const;
 
 export const menuItem: Variants = {
