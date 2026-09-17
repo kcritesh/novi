@@ -1,5 +1,6 @@
 import { Navbar } from "@/components/layout/navbar";
 import { Hero } from "@/components/sections/hero";
+import { ProofGrid } from "@/components/sections/proof-grid";
 import { Heading, Section } from "@/design-system";
 
 export default function Home() {
@@ -8,6 +9,7 @@ export default function Home() {
       <Navbar />
       <main id="main">
         <Hero />
+        <ProofGrid />
         <Section id="features" index="03" label="Features" containerClassName="min-h-screen">
           <Heading>Features</Heading>
         </Section>

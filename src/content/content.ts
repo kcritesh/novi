@@ -68,16 +68,55 @@ export const heroBoard: {
   ],
   tasks: {
     todo: [
-      { id: "t1", title: "Write launch email", tag: tags.marketing, due: "Sep 24", assignees: [people.maya, people.sam] },
+      {
+        id: "t1",
+        title: "Write launch email",
+        tag: tags.marketing,
+        due: "Sep 24",
+        assignees: [people.maya, people.sam],
+      },
       { id: "t2", title: "Sprint planning", tag: tags.research, due: "Sep 25", assignees: [people.joshua] },
-      { id: "t3", title: "Invite beta users", tag: tags.marketing, due: "Sep 27", assignees: [people.ana, people.maya] },
+      {
+        id: "t3",
+        title: "Invite beta users",
+        tag: tags.marketing,
+        due: "Sep 27",
+        assignees: [people.ana, people.maya],
+      },
     ],
     doing: [
-      { id: "t4", title: "Homepage hero copy", tag: tags.design, due: "Sep 23", assignees: [people.ana, people.joshua] },
+      {
+        id: "t4",
+        title: "Homepage hero copy",
+        tag: tags.design,
+        due: "Sep 23",
+        assignees: [people.ana, people.joshua],
+      },
       { id: "t5", title: "Pricing page QA", tag: tags.bug, due: "Sep 26", assignees: [people.sam] },
     ],
     done: [
-      { id: "t6", title: "Fix onboarding bug", tag: tags.bug, due: "Sep 19", assignees: [people.joshua, people.maya] },
+      {
+        id: "t6",
+        title: "Fix onboarding bug",
+        tag: tags.bug,
+        due: "Sep 19",
+        assignees: [people.joshua, people.maya],
+      },
     ],
   },
 };
+
+export type Wordmark = "fieldwork" | "loop" | "parcel" | "northwind" | "kiln" | "sundial";
+
+export const proof = {
+  eyebrow: "Trusted by small teams at",
+  statement: "40+ studios and startups plan their week in Novi.",
+  logos: [
+    { id: "fieldwork", name: "Fieldwork" },
+    { id: "loop", name: "Loop & Co" },
+    { id: "parcel", name: "Parcel" },
+    { id: "northwind", name: "Northwind Studio" },
+    { id: "kiln", name: "Kiln" },
+    { id: "sundial", name: "Sundial" },
+  ] satisfies { id: Wordmark; name: string }[],
+} as const;
