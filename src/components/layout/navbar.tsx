@@ -47,7 +47,7 @@ export function Navbar() {
                     onMouseEnter={() => setHovered(id)}
                     onFocus={() => setHovered(id)}
                     onBlur={() => setHovered(null)}
-                    className="relative inline-flex h-11 items-center rounded-control px-4 text-label text-muted transition-colors duration-fast hover:text-ink aria-[current=location]:text-ink"
+                    className="relative inline-flex h-11 items-center rounded-control px-4 text-label font-medium text-ink-soft transition-colors duration-fast hover:text-ink aria-[current=location]:text-ink"
                   >
                     {highlighted === id && (
                       <motion.span
