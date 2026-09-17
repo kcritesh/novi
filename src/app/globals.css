@@ -152,6 +152,11 @@
     -webkit-text-size-adjust: 100%;
   }
 
+  /* Lenis drives smoothing itself; native smooth-scroll would fight its scrollTo calls. */
+  html.lenis {
+    scroll-behavior: auto;
+  }
+
   body {
     @apply bg-paper font-sans text-body text-ink antialiased;
     text-rendering: optimizeLegibility;

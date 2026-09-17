@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type MouseEvent } from "react";
 import { motion } from "motion/react";
 
 import { nav } from "@/content/content";
@@ -8,10 +8,16 @@ import { Button, Container, Logo } from "@/design-system";
 import { useActiveSection } from "@/hooks/use-active-section";
 import { useScrolled } from "@/hooks/use-scrolled";
 import { spring } from "@/lib/motion";
+import { scrollToHash } from "@/lib/scroll";
 import { cn } from "@/lib/utils";
 import { MobileMenu } from "./mobile-menu";
 
 const sectionIds = nav.links.map((link) => link.href.slice(1));
+
+function navigate(event: MouseEvent<HTMLAnchorElement>) {
+  event.preventDefault();
+  scrollToHash(event.currentTarget.hash);
+}
 
 export function Navbar() {
   const scrolled = useScrolled(20);
@@ -31,7 +37,7 @@ export function Navbar() {
       )}
     >
       <Container className="flex h-16 items-center justify-between gap-6">
-        <a href="#overview" aria-label="Novi home" className="-ml-1 rounded-control p-1">
+        <a href="#overview" onClick={navigate} aria-label="Novi home" className="-ml-1 rounded-control p-1">
           <Logo />
         </a>
 
@@ -43,6 +49,7 @@ export function Navbar() {
                 <li key={link.href}>
                   <a
                     href={link.href}
+                    onClick={navigate}
                     aria-current={active === id ? "location" : undefined}
                     onMouseEnter={() => setHovered(id)}
                     onFocus={() => setHovered(id)}
