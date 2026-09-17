@@ -40,7 +40,7 @@ function Card({ title, tilt, className }: { title: string; tilt: number; classNa
       )}
     >
       <span className="truncate text-caption text-ink">{title}</span>
-      <span className="flex items-center gap-2">
+      <span className="hidden items-center gap-2 sm:flex">
         <span className="size-5 rounded-full border border-dashed border-hairline-strong" />
         <Pill tone="neutral" className="text-subtle">
           {organize.noDate}
@@ -54,11 +54,11 @@ function OwnerPicker({ owner }: { owner: Person }) {
   const choices = [owner, ...organize.assignees.filter((p) => p !== owner)].slice(0, 3);
   return (
     <motion.ul
-      initial={{ opacity: 0, y: -4, scale: 0.96 }}
+      initial={{ opacity: 0, y: 4, scale: 0.96 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
-      exit={{ opacity: 0, y: -4, scale: 0.96 }}
+      exit={{ opacity: 0, y: 4, scale: 0.96 }}
       transition={spring.snappy}
-      className="absolute top-full right-0 z-10 mt-1.5 w-36 rounded-card border border-hairline bg-surface p-1 shadow-lift"
+      className="absolute right-0 bottom-full z-10 mb-1.5 w-36 origin-bottom-right rounded-card border border-hairline bg-surface p-1 shadow-lift"
     >
       {choices.map((person) => (
         <li
