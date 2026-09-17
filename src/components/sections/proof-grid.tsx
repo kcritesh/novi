@@ -29,9 +29,9 @@ const wordmarks: Record<Wordmark, ReactNode> = {
 
 export function ProofGrid() {
   return (
-    <Section id="proof" containerClassName="py-16 sm:py-20 lg:py-24">
-      <div className="grid items-center gap-10 lg:grid-cols-[1fr_2fr] lg:gap-0">
-        <div className="lg:pr-10">
+    <Section id="proof" containerClassName="px-0 py-0 sm:px-0 sm:py-0 lg:py-0">
+      <div className="grid lg:grid-cols-[1fr_2fr]">
+        <div className="flex flex-col justify-center px-5 py-10 sm:px-8 lg:border-r lg:border-hairline lg:px-7 lg:py-0">
           <Text size="label">{proof.eyebrow}</Text>
           <p className="mt-3 max-w-sm text-title text-balance text-ink">{proof.statement}</p>
         </div>
@@ -39,7 +39,7 @@ export function ProofGrid() {
         <RevealGroup
           role="list"
           aria-label="Customer logos"
-          className="grid grid-cols-2 gap-px overflow-hidden rounded-card border border-hairline bg-hairline sm:grid-cols-3"
+          className="grid grid-cols-2 gap-px border-t border-hairline bg-hairline sm:grid-cols-3 lg:border-t-0"
         >
           {proof.logos.map((logo) => (
             <RevealItem
