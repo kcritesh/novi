@@ -55,5 +55,5 @@ export function Avatar({ name, tone, size, className, ...props }: AvatarProps) {
 }
 
 export function AvatarStack({ className, ...props }: ComponentProps<"span">) {
-  return <span className={cn("flex -space-x-1", className)} {...props} />;
+  return <span className={cn("flex -space-x-0.5", className)} {...props} />;
 }
