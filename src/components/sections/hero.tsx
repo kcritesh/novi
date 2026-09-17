@@ -2,15 +2,15 @@
 
 import { useRef, type RefObject } from "react";
 import Image from "next/image";
-import { ArrowDown, ArrowRight } from "lucide-react";
+import { ArrowDown, ArrowRight, Star } from "lucide-react";
 import { motion, useScroll, useTransform } from "motion/react";
 
 import heroSky from "@/assets/hero-sky.jpeg";
 
 import { NoviWindow } from "@/components/demos/novi-window";
 import { TabCollapse } from "@/components/demos/tab-collapse";
-import { hero } from "@/content/content";
-import { Button, Em, Heading, Pill, Section, Text } from "@/design-system";
+import { hero, heroProof } from "@/content/content";
+import { Avatar, AvatarStack, Button, Em, Heading, Pill, Section, Text } from "@/design-system";
 import { useMagnetic } from "@/hooks/use-magnetic";
 import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion";
 import { heroParallax, spring } from "@/lib/motion";
@@ -38,6 +38,29 @@ function Scribble() {
         }}
       />
     </svg>
+  );
+}
+
+function HeroProof() {
+  return (
+    <div className="mt-8 flex animate-rise-in items-center justify-center gap-3 [animation-delay:320ms]">
+      <AvatarStack aria-hidden className="-space-x-2">
+        {heroProof.people.map((person) => (
+          <Avatar key={person.name} name={person.name} src={person.photo} size="md" />
+        ))}
+      </AvatarStack>
+      <div className="flex flex-col items-start gap-0.5">
+        <div className="flex gap-0.5 text-star">
+          {Array.from({ length: heroProof.rating }, (_, i) => (
+            <Star key={i} aria-hidden className="size-3.5 fill-current" />
+          ))}
+        </div>
+        <Text size="label" tone="ink" className="font-medium">
+          <span className="sr-only">Rated {heroProof.rating} out of 5. </span>
+          {heroProof.label}
+        </Text>
+      </div>
+    </div>
   );
 }
 
@@ -138,6 +161,8 @@ export function Hero() {
             </a>
           </Button>
         </div>
+
+        <HeroProof />
       </div>
 
       <div className="relative mx-auto mt-14 max-w-5xl sm:mt-16">

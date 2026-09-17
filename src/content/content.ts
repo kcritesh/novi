@@ -53,6 +53,12 @@ export const people = {
   sam: { name: "Sam Patel", tone: "amber", photo: samPhoto },
 } satisfies Record<string, Person>;
 
+export const heroProof = {
+  people: [people.maya, people.joshua, people.ana, people.sam],
+  rating: 5,
+  label: "Loved by 40+ small teams",
+} as const;
+
 export const tags = {
   design: { label: "Design", tone: "accent" },
   bug: { label: "Bug", tone: "rose" },
