@@ -8,19 +8,28 @@ A landing page for Novi, a project and task management tool for small, fast movi
 
 ## Run it
 
-Requires Node 20.9+ and pnpm.
+Requires Node 20.9+. pnpm is recommended (lockfile is `pnpm-lock.yaml`), npm works too.
+
+With pnpm:
 
 ```bash
 pnpm install
 pnpm dev          # http://localhost:3000
 ```
 
-| Command                     | What it does                                        |
-| --------------------------- | --------------------------------------------------- |
-| `pnpm build` / `pnpm start` | Production build and server                         |
-| `pnpm lint`                 | ESLint (Next.js core web vitals + TypeScript rules) |
-| `pnpm typecheck`            | Generates Next route types, then `tsc --noEmit`     |
-| `pnpm format`               | Prettier with Tailwind class sorting                |
+With npm:
+
+```bash
+npm install
+npm run dev       # http://localhost:3000
+```
+
+| pnpm                        | npm                           | What it does                                        |
+| --------------------------- | ----------------------------- | --------------------------------------------------- |
+| `pnpm build` / `pnpm start` | `npm run build` / `npm start` | Production build and server                         |
+| `pnpm lint`                 | `npm run lint`                | ESLint (Next.js core web vitals + TypeScript rules) |
+| `pnpm typecheck`            | `npm run typecheck`           | Generates Next route types, then `tsc --noEmit`     |
+| `pnpm format`               | `npm run format`              | Prettier with Tailwind class sorting                |
 
 ## Stack
 
@@ -90,9 +99,6 @@ Sections only compose design-system parts and never use raw Radix or shadcn mark
 - All text meets WCAG AA contrast
 - Hero headline animates with CSS only, so it paints before hydration
 
-Lighthouse on a local production build:
+Lighthouse:
 
-|                               | Performance | Accessibility | Best practices | SEO |
-| ----------------------------- | ----------- | ------------- | -------------- | --- |
-| Desktop                       | 100         | 100           | 100            | 100 |
-| Mobile (simulated throttling) | 94          | 100           | 100            | 100 |
+![Lighthouse scores: Performance 100, Accessibility 100, Best Practices 96, SEO 100](.github/assets/lighthouse.png)
