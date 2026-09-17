@@ -220,3 +220,74 @@ export const importFlow = {
     secondary: "Import another",
   },
 } as const;
+
+export type StepId = "import" | "organize" | "ship";
+
+export const howItWorks = {
+  eyebrow: "How it works",
+  heading: {
+    lead: "From scattered to shipped",
+    quietLead: "in three",
+    emphasis: "calm",
+    quietTail: "steps.",
+  },
+  link: { label: "Start with an import", href: "#features" },
+  steps: [
+    {
+      id: "import",
+      number: "01",
+      title: "Import",
+      description: "Pull boards from Trello, Asana, or a spreadsheet. Nothing gets lost.",
+    },
+    {
+      id: "organize",
+      number: "02",
+      title: "Organize",
+      description: "Group work into projects, assign owners, set due dates.",
+    },
+    {
+      id: "ship",
+      number: "03",
+      title: "Ship",
+      description: "Track progress on one board and one timeline until it's done.",
+    },
+  ] satisfies { id: StepId; number: string; title: string; description: string }[],
+  visuals: {
+    import: {
+      sources: ["Trello — Marketing", "Asana — Q3 Launch", "roadmap.csv"],
+      board: "Launch — Q3",
+      tasks: [
+        { title: "Write launch email", owner: people.maya },
+        { title: "Fix onboarding bug", owner: people.joshua },
+        { title: "Homepage hero copy", owner: people.ana },
+        { title: "Pricing page QA", owner: people.sam },
+      ],
+      chip: "24 tasks imported",
+    },
+    organize: {
+      groups: [
+        {
+          name: "Website",
+          tasks: [
+            { title: "Homepage hero copy", owner: people.ana, due: "Sep 23" },
+            { title: "Pricing page QA", owner: people.sam, due: "Sep 26" },
+          ],
+        },
+        {
+          name: "Launch comms",
+          tasks: [
+            { title: "Write launch email", owner: people.maya, due: "Sep 24" },
+            { title: "Invite beta users", owner: people.joshua, due: "Sep 27" },
+          ],
+        },
+      ],
+    },
+    ship: {
+      project: "Launch — Q3",
+      status: "Shipped",
+      progressLabel: "24 of 24 tasks done",
+      milestones: ["Research", "Design", "Build", "Launch"],
+      note: "Shipped two days early.",
+    },
+  },
+} as const;
