@@ -273,29 +273,45 @@ export const howItWorks = {
       chip: "24 tasks imported",
     },
     organize: {
+      inbox: { label: "Inbox", unsorted: "unsorted" },
+      emptySlot: "Waiting for task",
+      allSorted: "All sorted",
+      noDate: "No date",
+      chip: "4 owners · all dated",
+      assignees: [people.ana, people.joshua, people.maya, people.sam],
       groups: [
         {
           name: "Website",
-          tasks: [
-            { title: "Homepage hero copy", owner: people.ana, due: "Sep 23" },
-            { title: "Pricing page QA", owner: people.sam, due: "Sep 26" },
-          ],
+          tone: "accent",
+          placed: { title: "Homepage hero copy", owner: people.ana, due: "Sep 23" },
+          incoming: { title: "Pricing page QA", owner: people.sam, due: "Sep 26", tilt: 1.5 },
         },
         {
           name: "Launch comms",
-          tasks: [
-            { title: "Write launch email", owner: people.maya, due: "Sep 24" },
-            { title: "Invite beta users", owner: people.joshua, due: "Sep 27" },
-          ],
+          tone: "amber",
+          placed: { title: "Write launch email", owner: people.maya, due: "Sep 24" },
+          incoming: { title: "Invite beta users", owner: people.joshua, due: "Sep 27", tilt: -2 },
         },
       ],
     },
     ship: {
       project: "Launch — Q3",
-      status: "Shipped",
-      progressLabel: "24 of 24 tasks done",
+      tabs: ["Board", "Timeline"],
+      column: {
+        name: "In progress",
+        tasks: [
+          { title: "Invite beta users", tag: tags.marketing, owner: people.joshua },
+          { title: "Pricing page QA", tag: tags.bug, owner: people.sam },
+        ],
+      },
+      done: { name: "Done", count: 22, visible: ["Homepage hero copy", "Write launch email"] },
+      total: 24,
+      tasksDone: "tasks done",
+      status: { open: "On track", shipped: "Shipped" },
       milestones: ["Research", "Design", "Build", "Launch"],
-      note: "Shipped two days early.",
+      team: [people.maya, people.joshua, people.ana, people.sam],
+      due: "Due Oct 3",
+      chip: "Shipped · 2 days early",
     },
   },
 } as const;
