@@ -296,15 +296,7 @@ export const howItWorks = {
     },
     ship: {
       project: "Launch — Q3",
-      tabs: ["Board", "Timeline"],
-      column: {
-        name: "In progress",
-        tasks: [
-          { title: "Invite beta users", tag: tags.marketing, owner: people.joshua },
-          { title: "Pricing page QA", tag: tags.bug, owner: people.sam },
-        ],
-      },
-      done: { name: "Done", count: 22, visible: ["Homepage hero copy", "Write launch email"] },
+      startDone: 22,
       total: 24,
       tasksDone: "tasks done",
       status: { open: "On track", shipped: "Shipped" },
