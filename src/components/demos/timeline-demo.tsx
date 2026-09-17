@@ -1,11 +1,12 @@
 "use client";
 
 import { useRef, useState, type KeyboardEvent, type PointerEvent } from "react";
-import { AnimatePresence, motion } from "motion/react";
+import { AnimatePresence, motion, useMotionValueEvent, useScroll } from "motion/react";
 
 import { features } from "@/content/content";
 import { Avatar } from "@/design-system";
-import { spring } from "@/lib/motion";
+import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion";
+import { spring, timelineScrub } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
 const { start, days, milestones, scrubberLabel, dueHeading, empty } = features.timeline;
@@ -37,9 +38,21 @@ function dateAt(day: number) {
 const weekTicks = Array.from({ length: days / 7 + 1 }, (_, week) => week * 7);
 
 export function TimelineDemo() {
+  const rootRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
-  const [day, setDay] = useState(15);
+  const [pickedDay, setPickedDay] = useState(15);
+  const [scrubDay, setScrubDay] = useState(0);
   const [dragging, setDragging] = useState(false);
+  const [interacted, setInteracted] = useState(false);
+  const reduceMotion = usePrefersReducedMotion();
+  const scripted = !reduceMotion && !interacted;
+  const { scrollYProgress } = useScroll({ target: rootRef, offset: timelineScrub.offset });
+
+  useMotionValueEvent(scrollYProgress, "change", (progress) => {
+    if (scripted) setScrubDay((Math.round(progress * timelineScrub.moves) / timelineScrub.moves) * days);
+  });
+
+  const day = scripted ? scrubDay : pickedDay;
 
   const active = milestones.filter((m) => day >= m.from && day <= m.to);
   const activeText = active.length ? active.map((m) => m.label).join(", ") : "Nothing due";
@@ -54,12 +67,13 @@ export function TimelineDemo() {
 
   function onPointerDown(event: PointerEvent<HTMLDivElement>) {
     event.currentTarget.setPointerCapture(event.pointerId);
+    setInteracted(true);
     setDragging(true);
-    setDay(dayFromPointer(event.clientX));
+    setPickedDay(dayFromPointer(event.clientX));
   }
 
   function onPointerMove(event: PointerEvent<HTMLDivElement>) {
-    if (dragging) setDay(dayFromPointer(event.clientX));
+    if (dragging) setPickedDay(dayFromPointer(event.clientX));
   }
 
   function onKeyDown(event: KeyboardEvent<HTMLDivElement>) {
@@ -75,13 +89,14 @@ export function TimelineDemo() {
     };
     if (!(event.key in moves)) return;
     event.preventDefault();
-    setDay(Math.min(days, Math.max(0, moves[event.key])));
+    setInteracted(true);
+    setPickedDay(Math.min(days, Math.max(0, moves[event.key])));
   }
 
   const percent = (day / days) * 100;
 
   return (
-    <div>
+    <div ref={rootRef}>
       <div className="mb-3 flex items-baseline justify-between gap-3">
         <p className="text-caption text-muted">
           <span className="font-medium text-ink tabular-nums">{dateAt(day)}</span>

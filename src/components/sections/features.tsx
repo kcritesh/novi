@@ -35,7 +35,7 @@ function FeatureCard({ icon: Icon, title, description, className, children }: Fe
           "hover:before:opacity-100",
         )}
       >
-        <Icon aria-hidden className="size-6 text-ink" strokeWidth={1.5} />
+        <Icon aria-hidden className="size-6 text-accent" strokeWidth={1.5} />
         <h3 className="mt-5 text-title font-semibold text-ink">{title}</h3>
         <Text className="mt-1.5 max-w-md">{description}</Text>
         <div className="mt-7 flex-1">{children}</div>

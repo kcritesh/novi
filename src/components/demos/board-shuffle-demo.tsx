@@ -58,31 +58,41 @@ export function BoardShuffleDemo() {
     >
       <LayoutGroup>
         {features.boards.columns.map((title, index) => (
-          <div key={title} className="flex min-h-40 flex-col gap-1.5 rounded-control bg-paper p-1.5">
+          <div key={title} className="flex flex-col gap-1.5 rounded-control bg-paper p-1.5">
             <div className="flex items-center justify-between px-1 pt-0.5 pb-1">
               <span className="text-caption font-medium text-ink">{title}</span>
               <span className="text-micro text-subtle tabular-nums">{columns[index].length}</span>
             </div>
-            {columns[index].map((id) => {
-              const card = cardsById[id];
-              return (
-                <motion.div
-                  key={id}
-                  layoutId={`shuffle-${id}`}
-                  transition={spring.soft}
-                  className="rounded-control border border-hairline bg-surface px-2 py-2 shadow-card"
-                >
-                  <div className="flex items-center gap-1.5">
-                    <span className={cn("size-1.5 shrink-0 rounded-full", toneDot[card.tone])} />
-                    <span className="truncate text-caption text-ink">{card.title}</span>
-                  </div>
-                  <span className="mt-2 block h-1 w-2/3 rounded-full bg-hairline" />
-                </motion.div>
-              );
-            })}
+            {/* Invisible stack of every card shares the grid cell so columns reserve full-board height and never grow mid-shuffle. */}
+            <div className="grid">
+              <div className="invisible col-start-1 row-start-1 flex flex-col gap-1.5">
+                {features.boards.cards.map((card) => (
+                  <BoardCard key={card.id} card={card} />
+                ))}
+              </div>
+              <div className="col-start-1 row-start-1 flex flex-col gap-1.5">
+                {columns[index].map((id) => (
+                  <motion.div key={id} layoutId={`shuffle-${id}`} transition={spring.soft}>
+                    <BoardCard card={cardsById[id]} />
+                  </motion.div>
+                ))}
+              </div>
+            </div>
           </div>
         ))}
       </LayoutGroup>
+    </div>
+  );
+}
+
+function BoardCard({ card }: { card: (typeof features.boards.cards)[number] }) {
+  return (
+    <div className="rounded-control border border-hairline bg-surface px-2 py-2 shadow-card">
+      <div className="flex items-center gap-1.5">
+        <span className={cn("size-1.5 shrink-0 rounded-full", toneDot[card.tone])} />
+        <span className="truncate text-caption text-ink">{card.title}</span>
+      </div>
+      <span className="mt-2 block h-1 w-2/3 rounded-full bg-hairline" />
     </div>
   );
 }

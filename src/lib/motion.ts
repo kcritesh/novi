@@ -66,6 +66,13 @@ export const scrollDrag = {
   range: { start: 0.85, end: 0.2, minDistance: 320 },
 } as const;
 
+// Timeline scrubber sweeps start→end while the demo's top climbs from 85% to 20% of the viewport, matching the hero drag.
+// Snaps to `moves` evenly spaced jumps so the short scroll range doesn't flick through each date.
+export const timelineScrub: { offset: ["start 0.85", "start 0.2"]; moves: number } = {
+  offset: ["start 0.85", "start 0.2"],
+  moves: 4,
+};
+
 export const inViewOnce = { once: true, margin: "0px 0px -12% 0px" } as const;
 
 export const menuItem: Variants = {
