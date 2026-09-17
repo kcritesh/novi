@@ -26,7 +26,12 @@ export function Section({
   ...props
 }: SectionProps) {
   return (
-    <section id={id} className={cn("relative border-t border-hairline", className)} {...props}>
+    <section
+      id={id}
+      tabIndex={-1}
+      className={cn("relative border-t border-hairline outline-none", className)}
+      {...props}
+    >
       <Container
         className={cn(
           "relative py-20 sm:py-24 lg:py-32",

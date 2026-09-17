@@ -42,3 +42,13 @@ export function stagger(gap = 0.06, delayChildren = 0): Variants {
 }
 
 export const inViewOnce = { once: true, amount: 0.3 } as const;
+
+export const menuItem: Variants = {
+  hidden: { opacity: 0, y: 12 },
+  visible: { opacity: 1, y: 0, transition: spring.soft },
+};
+
+export const toggleLine = {
+  top: { closed: { y: -4, rotate: 0 }, open: { y: 0, rotate: 45 } },
+  bottom: { closed: { y: 4, rotate: 0 }, open: { y: 0, rotate: -45 } },
+} satisfies Record<string, Variants>;

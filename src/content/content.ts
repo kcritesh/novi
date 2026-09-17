@@ -15,6 +15,7 @@ export const nav = {
     { label: "Pricing", href: "#pricing" },
   ] satisfies NavLink[],
   cta: { label: "Start free", href: "#pricing" },
+  ctaNote: "Free for teams up to 10. No credit card.",
 } as const;
 
 export const hero = {
