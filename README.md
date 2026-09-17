@@ -4,7 +4,7 @@ A landing page for Novi, a project and task management tool for small, fast movi
 
 ![Hero: app tabs collapse into one Novi window, then a card is dragged across the board](.github/assets/hero.gif)
 
-**Live preview:** https://novi-sage.vercel.app
+**Live preview:** https://novi-sage.vercel.app (if Vercel blocked by your ISP, try https://novi.riteshkc.com.np)
 
 ## Run it
 
