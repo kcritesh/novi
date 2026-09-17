@@ -34,6 +34,14 @@ export const hero = {
   secondaryCta: { label: "See how it works", href: "#how-it-works" },
 } as const;
 
+export const notFound = {
+  code: "404",
+  headline: { lead: "This page wandered", emphasis: "off the board." },
+  support: "The link may be old, or the page moved. Everything else is right where you left it.",
+  primaryCta: { label: "Back home", href: "/" },
+  secondaryCta: { label: "Explore features", href: "/#features" },
+} as const;
+
 export type Tone = "accent" | "green" | "amber" | "rose" | "neutral";
 export type Person = { name: string; tone: Exclude<Tone, "neutral">; photo: StaticImageData };
 export type TaskTag = { label: string; tone: Tone };

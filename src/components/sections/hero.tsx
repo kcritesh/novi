@@ -1,12 +1,10 @@
 "use client";
 
 import { useRef, type RefObject } from "react";
-import Image from "next/image";
 import { ArrowDown, ArrowRight, Star } from "lucide-react";
 import { motion, useScroll, useTransform } from "motion/react";
 
-import heroSky from "@/assets/hero-sky.jpeg";
-
+import { SkyImage } from "@/components/layout/sky-image";
 import { NoviWindow } from "@/components/demos/novi-window";
 import { TabCollapse } from "@/components/demos/tab-collapse";
 import { hero, heroProof } from "@/content/content";
@@ -76,15 +74,7 @@ function HeroBackdrop({ target }: { target: RefObject<HTMLElement | null> }) {
       className="pointer-events-none absolute top-0 left-1/2 -z-10 h-184 w-screen -translate-x-1/2 overflow-hidden hero-fade sm:h-224"
     >
       <motion.div className="absolute inset-0" style={reduceMotion ? undefined : { y, scale }}>
-        <Image
-          src={heroSky}
-          alt=""
-          fill
-          priority
-          sizes="100vw"
-          placeholder="blur"
-          className="object-cover object-[50%_35%]"
-        />
+        <SkyImage />
       </motion.div>
       <div className="absolute inset-0 hero-veil" />
     </div>
