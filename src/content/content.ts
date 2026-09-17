@@ -358,3 +358,87 @@ export const pricing = {
     },
   ],
 } as const;
+
+export const cta = {
+  heading: { lead: "Your team's", emphasis: "calmer", tail: "week starts today." },
+  support: "Free for teams up to 10. No credit card.",
+  primary: { label: "Start free", href: "#pricing" },
+  secondary: { label: "Talk to us" },
+  toast: { title: "We'd love to chat", description: "Novi is a demo, but thanks for asking." },
+  week: {
+    title: "This week",
+    tasks: [
+      { title: "Update launch roadmap", tag: { label: "Ready", tone: "green" }, done: true },
+      { title: "Define Q3 design system", tag: { label: "Reviewing", tone: "rose" }, done: true },
+      { title: "Onboard new designer", tag: { label: "Ready", tone: "green" }, done: true },
+      { title: "Finalize marketing copy", tag: { label: "Pending", tone: "amber" }, done: false },
+    ],
+  },
+} as const;
+
+export type SocialId = "x" | "linkedin" | "github";
+
+export const footer = {
+  tagline: "One calm place for fast teams.",
+  newsletter: {
+    label: "Email address",
+    placeholder: "you@team.com",
+    submit: "Subscribe",
+    loading: "Subscribing",
+    success: "Subscribed",
+    helper: "Product notes, once a month.",
+    invalid: "Enter a valid email, like you@team.com.",
+    toastSuccess: { title: "You're on the list", description: "First product note lands next month." },
+    toastError: { title: "That email looks off", description: "Check for typos and try again." },
+  },
+  groups: [
+    {
+      title: "Product",
+      links: [
+        { label: "Features", href: "#features" },
+        { label: "Pricing", href: "#pricing" },
+        { label: "Changelog", href: "#" },
+        { label: "Integrations", href: "#" },
+      ],
+    },
+    {
+      title: "Company",
+      links: [
+        { label: "About", href: "#" },
+        { label: "Careers", href: "#" },
+        { label: "Customers", href: "#proof" },
+        { label: "Contact", href: "#" },
+      ],
+    },
+    {
+      title: "Resources",
+      links: [
+        { label: "Guides", href: "#how-it-works" },
+        { label: "Templates", href: "#" },
+        { label: "Help center", href: "#" },
+        { label: "Community", href: "#" },
+      ],
+    },
+    {
+      title: "Legal",
+      links: [
+        { label: "Privacy", href: "#" },
+        { label: "Terms", href: "#" },
+        { label: "Security", href: "#" },
+        { label: "Cookies", href: "#" },
+      ],
+    },
+  ],
+  socials: [
+    { id: "x", label: "Novi on X", href: "https://x.com" },
+    { id: "linkedin", label: "Novi on LinkedIn", href: "https://www.linkedin.com" },
+    { id: "github", label: "Novi on GitHub", href: "https://github.com/kcritesh/novi" },
+  ] satisfies { id: SocialId; label: string; href: string }[],
+  legal: {
+    company: "Novi Labs",
+    links: [
+      { label: "Privacy", href: "#" },
+      { label: "Terms", href: "#" },
+    ],
+  },
+} as const;
