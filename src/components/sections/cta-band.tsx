@@ -79,7 +79,7 @@ export function CtaBand() {
   const magnetic = useMagnetic<HTMLAnchorElement>(0.3);
 
   return (
-    <Section id="start" index="06" label="Start" containerClassName="py-16 sm:py-20 lg:py-24">
+    <Section id="start" containerClassName="py-16 sm:py-20 lg:py-24">
       <Reveal className="relative isolate overflow-hidden rounded-panel border border-accent-line bg-accent-tint">
         <div aria-hidden className="absolute inset-0 -z-10 dot-grid opacity-60" />
         <div className="grid grid-cols-[minmax(0,1fr)] items-center gap-10 p-6 sm:p-12 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] lg:gap-0 lg:p-16">

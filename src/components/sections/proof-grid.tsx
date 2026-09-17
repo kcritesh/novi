@@ -29,7 +29,7 @@ const wordmarks: Record<Wordmark, ReactNode> = {
 
 export function ProofGrid() {
   return (
-    <Section id="proof" index="02" label="Proof" containerClassName="py-16 sm:py-20 lg:py-24">
+    <Section id="proof" containerClassName="py-16 sm:py-20 lg:py-24">
       <div className="grid items-center gap-10 lg:grid-cols-[1fr_2fr] lg:gap-0">
         <div className="lg:pr-10">
           <Text size="label">{proof.eyebrow}</Text>

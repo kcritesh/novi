@@ -156,7 +156,7 @@ export function Pricing() {
   const [billing, setBilling] = useState<Billing>("monthly");
 
   return (
-    <Section id="pricing" index="05" label="Pricing">
+    <Section id="pricing">
       <Reveal className="mx-auto max-w-2xl text-center">
         <Pill>{pricing.eyebrow}</Pill>
         <Heading className="mt-4">

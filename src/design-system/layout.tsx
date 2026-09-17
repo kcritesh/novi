@@ -8,8 +8,6 @@ export function Container({ className, ...props }: ComponentProps<"div">) {
 
 type SectionProps = Omit<ComponentProps<"section">, "id"> & {
   id: string;
-  index?: string;
-  label?: string;
   railed?: boolean;
   containerClassName?: string;
   children: ReactNode;
@@ -17,8 +15,6 @@ type SectionProps = Omit<ComponentProps<"section">, "id"> & {
 
 export function Section({
   id,
-  index,
-  label,
   railed = true,
   className,
   containerClassName,
@@ -39,21 +35,9 @@ export function Section({
           containerClassName,
         )}
       >
-        {index && label && <RailLabel index={index} label={label} />}
         {children}
       </Container>
     </section>
-  );
-}
-
-export function RailLabel({ index, label }: { index: string; label: string }) {
-  return (
-    <span
-      aria-hidden
-      className="pointer-events-none absolute top-1/2 -left-10 hidden origin-center -translate-y-1/2 -rotate-90 text-micro whitespace-nowrap text-subtle xl:block"
-    >
-      {index} — {label}
-    </span>
   );
 }
 

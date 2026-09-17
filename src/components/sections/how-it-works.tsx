@@ -94,7 +94,7 @@ export function HowItWorks() {
   const ActiveVisual = stepVisuals[active];
 
   return (
-    <Section id="how-it-works" index="04" label="How it works">
+    <Section id="how-it-works">
       <Reveal className="max-w-3xl">
         <Pill>{howItWorks.eyebrow}</Pill>
         <Heading className="mt-4">

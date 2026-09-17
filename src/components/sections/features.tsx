@@ -46,7 +46,7 @@ function FeatureCard({ icon: Icon, title, description, className, children }: Fe
 
 export function Features() {
   return (
-    <Section id="features" index="03" label="Features">
+    <Section id="features">
       <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
         <Reveal className="max-w-3xl">
           <Pill>{features.eyebrow}</Pill>
