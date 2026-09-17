@@ -44,11 +44,18 @@ export default function DesignSystemPreview() {
             Run your team without the <Em>tab switching.</Em>
           </Heading>
           <Heading size="display-md">
-            Everything your team needs, <Quiet><Em>nothing</Em> it doesn&apos;t.</Quiet>
+            Everything your team needs,{" "}
+            <Quiet>
+              <Em>nothing</Em> it doesn&apos;t.
+            </Quiet>
           </Heading>
-          <Heading as="h3" size="title">Boards that move at your speed</Heading>
+          <Heading as="h3" size="title">
+            Boards that move at your speed
+          </Heading>
           <Text size="body-lg">Novi brings tasks, docs, and conversations into one calm workspace.</Text>
-          <Text size="label" tone="ink">Label ink</Text>
+          <Text size="label" tone="ink">
+            Label ink
+          </Text>
           <Text size="caption">Caption muted</Text>
         </div>
       </Section>
@@ -73,9 +80,15 @@ export default function DesignSystemPreview() {
           </Button>
           <Button variant="ghost">Ghost</Button>
           <Button variant="link">Talk to us →</Button>
-          <Button size="sm" variant="outline">Small</Button>
+          <Button size="sm" variant="outline">
+            Small
+          </Button>
           <Button size="lg">Large</Button>
-          <Button onClick={() => toast.success("You're on the list", { description: "Product notes, once a month." })}>
+          <Button
+            onClick={() =>
+              toast.success("You're on the list", { description: "Product notes, once a month." })
+            }
+          >
             Toast
           </Button>
           <Dialog>
@@ -90,7 +103,9 @@ export default function DesignSystemPreview() {
         </div>
         <div className="mt-6 flex flex-wrap items-center gap-2">
           <Pill>Features</Pill>
-          <Pill tone="outline" size="md">New · Timeline view <ArrowRight /></Pill>
+          <Pill tone="outline" size="md">
+            New · Timeline view <ArrowRight />
+          </Pill>
           <Pill tone="solid">Most popular</Pill>
           <Pill tone="green">Save 20%</Pill>
           <Pill tone="amber">Marketing</Pill>
@@ -107,7 +122,7 @@ export default function DesignSystemPreview() {
           <Input placeholder="you@team.com" type="email" aria-label="Email" />
           <Button variant="ink">Subscribe</Button>
         </div>
-        <Card className="dot-grid mt-6 h-40" />
+        <Card className="mt-6 h-40 dot-grid" />
       </Section>
     </main>
   );

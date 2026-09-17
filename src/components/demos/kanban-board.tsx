@@ -80,7 +80,11 @@ export function KanbanBoard({ onFirstDrag, className }: KanbanBoardProps) {
   const [board, setBoard] = useState<Board>(heroBoard.tasks);
   const [activeId, setActiveId] = useState<UniqueIdentifier | null>(null);
   const boardBeforeDrag = useRef<Board | null>(null);
-  const isClient = useSyncExternalStore(noopSubscribe, () => true, () => false);
+  const isClient = useSyncExternalStore(
+    noopSubscribe,
+    () => true,
+    () => false,
+  );
 
   const sensors = useSensors(
     useSensor(MouseSensor, { activationConstraint: { distance: 4 } }),
@@ -170,12 +174,18 @@ export function KanbanBoard({ onFirstDrag, className }: KanbanBoardProps) {
     >
       <div
         className={cn(
-          "-mx-4 flex snap-x snap-mandatory gap-3 overflow-x-auto px-4 pb-1 [scrollbar-width:none] sm:mx-0 sm:grid sm:grid-cols-3 sm:overflow-visible sm:px-0",
+          "-mx-4 flex snap-x snap-mandatory [scrollbar-width:none] gap-3 overflow-x-auto px-4 pb-1 sm:mx-0 sm:grid sm:grid-cols-3 sm:overflow-visible sm:px-0",
           className,
         )}
       >
         {heroBoard.columns.map((column) => (
-          <KanbanColumn key={column.id} id={column.id} title={column.title} tasks={board[column.id]} activeId={activeId} />
+          <KanbanColumn
+            key={column.id}
+            id={column.id}
+            title={column.title}
+            tasks={board[column.id]}
+            activeId={activeId}
+          />
         ))}
       </div>
 

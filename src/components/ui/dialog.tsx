@@ -14,12 +14,7 @@ type DialogContentProps = ComponentProps<typeof DialogPrimitive.Content> & {
   closeLabel?: string;
 };
 
-export function DialogContent({
-  className,
-  children,
-  closeLabel = "Close",
-  ...props
-}: DialogContentProps) {
+export function DialogContent({ className, children, closeLabel = "Close", ...props }: DialogContentProps) {
   return (
     <DialogPrimitive.Portal>
       <DialogPrimitive.Overlay className="fixed inset-0 z-50 bg-scrim backdrop-blur-[2px] data-[state=closed]:animate-fade-out data-[state=open]:animate-fade-in" />
@@ -46,10 +41,7 @@ export function DialogContent({
 
 export function DialogTitle({ className, ...props }: ComponentProps<typeof DialogPrimitive.Title>) {
   return (
-    <DialogPrimitive.Title
-      className={cn("pr-10 text-title font-semibold text-ink", className)}
-      {...props}
-    />
+    <DialogPrimitive.Title className={cn("pr-10 text-title font-semibold text-ink", className)} {...props} />
   );
 }
 
@@ -57,7 +49,5 @@ export function DialogDescription({
   className,
   ...props
 }: ComponentProps<typeof DialogPrimitive.Description>) {
-  return (
-    <DialogPrimitive.Description className={cn("mt-1.5 text-body text-muted", className)} {...props} />
-  );
+  return <DialogPrimitive.Description className={cn("mt-1.5 text-body text-muted", className)} {...props} />;
 }

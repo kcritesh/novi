@@ -27,7 +27,10 @@ function Scribble() {
         vectorEffect="non-scaling-stroke"
         initial={{ pathLength: 0, opacity: 0 }}
         animate={{ pathLength: 1, opacity: 1 }}
-        transition={{ pathLength: { duration: 0.7, ease: [0.65, 0, 0.35, 1], delay: 0.7 }, opacity: { duration: 0.01, delay: 0.7 } }}
+        transition={{
+          pathLength: { duration: 0.7, ease: [0.65, 0, 0.35, 1], delay: 0.7 },
+          opacity: { duration: 0.01, delay: 0.7 },
+        }}
       />
     </svg>
   );
@@ -44,14 +47,29 @@ export function Hero() {
       className="overflow-hidden border-t-0"
       containerClassName="pt-12 pb-16 sm:pt-20 sm:pb-24 lg:pt-24"
     >
-      <div aria-hidden className="dot-grid dot-grid-fade pointer-events-none absolute inset-x-0 top-0 h-[40rem]" />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 top-0 h-[40rem] dot-grid dot-grid-fade"
+      />
 
-      <motion.div initial="hidden" animate="visible" variants={stagger(0.08)} className="relative text-center">
+      <motion.div
+        initial="hidden"
+        animate="visible"
+        variants={stagger(0.08)}
+        className="relative text-center"
+      >
         <motion.div variants={fadeUp}>
           <a href={hero.announcement.href} className="group inline-flex rounded-full">
-            <Pill tone="outline" size="md" className="transition-colors duration-fast group-hover:border-hairline-strong">
+            <Pill
+              tone="outline"
+              size="md"
+              className="transition-colors duration-fast group-hover:border-hairline-strong"
+            >
               {hero.announcement.label}
-              <ArrowRight aria-hidden className="transition-transform duration-fast group-hover:translate-x-0.5" />
+              <ArrowRight
+                aria-hidden
+                className="transition-transform duration-fast group-hover:translate-x-0.5"
+              />
             </Pill>
           </a>
         </motion.div>
@@ -72,7 +90,10 @@ export function Hero() {
           </Text>
         </motion.div>
 
-        <motion.div variants={fadeUp} className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
+        <motion.div
+          variants={fadeUp}
+          className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row"
+        >
           <Button asChild size="lg" className="w-full sm:w-auto">
             <motion.a
               href={hero.primaryCta.href}
@@ -88,7 +109,10 @@ export function Hero() {
           <Button asChild variant="outline" size="lg" className="group w-full sm:w-auto">
             <a href={hero.secondaryCta.href}>
               {hero.secondaryCta.label}
-              <ArrowDown aria-hidden className="transition-transform duration-fast group-hover:translate-y-0.5" />
+              <ArrowDown
+                aria-hidden
+                className="transition-transform duration-fast group-hover:translate-y-0.5"
+              />
             </a>
           </Button>
         </motion.div>

@@ -56,7 +56,14 @@ export function TabCollapse({ children }: { children: ReactNode }) {
               initial={{ opacity: 0, x: x * 1.25, y: y - 60, rotate: rotate * 1.4, scale: 0.94 }}
               animate={
                 merged
-                  ? { opacity: 0, x: 0, y: 40, rotate: 0, scale: 0.55, transition: { ...spring.soft, delay: index * 0.04 } }
+                  ? {
+                      opacity: 0,
+                      x: 0,
+                      y: 40,
+                      rotate: 0,
+                      scale: 0.55,
+                      transition: { ...spring.soft, delay: index * 0.04 },
+                    }
                   : {
                       opacity: 1,
                       x,
@@ -65,7 +72,12 @@ export function TabCollapse({ children }: { children: ReactNode }) {
                       scale: 1,
                       transition: {
                         default: { ...spring.gentle, delay: index * 0.08 },
-                        rotate: { duration: 0.5, repeat: Infinity, repeatType: "mirror", delay: 0.35 + index * 0.08 },
+                        rotate: {
+                          duration: 0.5,
+                          repeat: Infinity,
+                          repeatType: "mirror",
+                          delay: 0.35 + index * 0.08,
+                        },
                       },
                     }
               }

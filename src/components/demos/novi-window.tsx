@@ -28,7 +28,10 @@ export function NoviWindow() {
       </div>
 
       <div className="flex">
-        <nav aria-label="Workspace" className="hidden w-14 shrink-0 flex-col items-center gap-1 border-r border-hairline py-3 sm:flex">
+        <nav
+          aria-label="Workspace"
+          className="hidden w-14 shrink-0 flex-col items-center gap-1 border-r border-hairline py-3 sm:flex"
+        >
           <LogoMark className="mb-3 size-6" />
           {railIcons.map(({ Icon, label, active }) => (
             <span

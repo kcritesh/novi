@@ -26,10 +26,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html
-      lang="en"
-      className={cn(geistSans.variable, geistMono.variable, instrumentSerif.variable)}
-    >
+    <html lang="en" className={cn(geistSans.variable, geistMono.variable, instrumentSerif.variable)}>
       <body>
         <a
           href="#main"

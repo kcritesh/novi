@@ -58,7 +58,14 @@ export function DocGhost() {
   );
 }
 
-const sheetTints = ["bg-green-tint", "bg-surface", "bg-amber-tint", "bg-surface", "bg-surface", "bg-rose-tint"];
+const sheetTints = [
+  "bg-green-tint",
+  "bg-surface",
+  "bg-amber-tint",
+  "bg-surface",
+  "bg-surface",
+  "bg-rose-tint",
+];
 
 export function SheetGhost() {
   return (
@@ -67,7 +74,11 @@ export function SheetGhost() {
         {Array.from({ length: 24 }, (_, i) => (
           <span
             key={i}
-            className={cn("h-4 border-r border-b border-hairline", i % 4 === 3 && "border-r-0", sheetTints[i % sheetTints.length])}
+            className={cn(
+              "h-4 border-r border-b border-hairline",
+              i % 4 === 3 && "border-r-0",
+              sheetTints[i % sheetTints.length],
+            )}
           />
         ))}
       </div>

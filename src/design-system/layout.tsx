@@ -59,9 +59,6 @@ export function RailLabel({ index, label }: { index: string; label: string }) {
 
 export function Card({ className, ...props }: ComponentProps<"div">) {
   return (
-    <div
-      className={cn("rounded-card border border-hairline bg-surface shadow-card", className)}
-      {...props}
-    />
+    <div className={cn("rounded-card border border-hairline bg-surface shadow-card", className)} {...props} />
   );
 }
